@@ -15,3 +15,4 @@ class Gift(models.Model):
 	category = models.CharField(max_length=200)
 	recipient_category = models.CharField(max_length=200)
 
+
