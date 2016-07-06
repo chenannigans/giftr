@@ -1,0 +1,69 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   'mysql' ]
+2 info using npm@2.15.5
+3 info using node@v4.4.5
+4 verbose install initial load of /development/carbon_hackathon/giftr/hackathon/package.json
+5 verbose readDependencies loading dependencies from /development/carbon_hackathon/giftr/hackathon/package.json
+6 silly cache add args [ 'mysql', null ]
+7 verbose cache add spec mysql
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'mysql',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'mysql',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: 'latest',
+8 silly cache add   type: 'tag' }
+9 silly addNamed mysql@latest
+10 verbose addNamed "latest" is being treated as a dist-tag for mysql
+11 info addNameTag [ 'mysql', 'latest' ]
+12 silly mapToRegistry name mysql
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry http://registry.npmjs.org/
+15 silly mapToRegistry data Result {
+15 silly mapToRegistry   raw: 'mysql',
+15 silly mapToRegistry   scope: null,
+15 silly mapToRegistry   name: 'mysql',
+15 silly mapToRegistry   rawSpec: '',
+15 silly mapToRegistry   spec: 'latest',
+15 silly mapToRegistry   type: 'tag' }
+16 silly mapToRegistry uri http://registry.npmjs.org/mysql
+17 verbose addNameTag registry:http://registry.npmjs.org/mysql not in flight; fetching
+18 verbose request uri http://registry.npmjs.org/mysql
+19 verbose request no auth needed
+20 info attempt registry request try #1 at 4:42:39 PM
+21 verbose request id df239eb1a950c98a
+22 http request GET http://registry.npmjs.org/mysql
+23 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 127.0.0.1:8099
+24 info attempt registry request try #2 at 4:42:49 PM
+25 http request GET http://registry.npmjs.org/mysql
+26 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 127.0.0.1:8099
+27 info attempt registry request try #3 at 4:43:49 PM
+28 http request GET http://registry.npmjs.org/mysql
+29 verbose stack Error: connect ECONNREFUSED 127.0.0.1:8099
+29 verbose stack     at Object.exports._errnoException (util.js:870:11)
+29 verbose stack     at exports._exceptionWithHostPort (util.js:893:20)
+29 verbose stack     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1061:14)
+30 verbose cwd /development/carbon_hackathon/giftr/hackathon
+31 error Darwin 15.5.0
+32 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "install" "mysql"
+33 error node v4.4.5
+34 error npm  v2.15.5
+35 error code ECONNREFUSED
+36 error errno ECONNREFUSED
+37 error syscall connect
+38 error Error: connect ECONNREFUSED 127.0.0.1:8099
+38 error     at Object.exports._errnoException (util.js:870:11)
+38 error     at exports._exceptionWithHostPort (util.js:893:20)
+38 error     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1061:14)
+38 error  { [Error: connect ECONNREFUSED 127.0.0.1:8099]
+38 error   code: 'ECONNREFUSED',
+38 error   errno: 'ECONNREFUSED',
+38 error   syscall: 'connect',
+38 error   address: '127.0.0.1',
+38 error   port: 8099 }
+39 error If you are behind a proxy, please make sure that the
+39 error 'proxy' config is set properly.  See: 'npm help config'
+40 verbose exit [ 1, true ]
