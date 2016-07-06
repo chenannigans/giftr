@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'giftr'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -48,9 +49,16 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 ROOT_URLCONF = 'hackathon.urls'
+
+LOGIN_URL = '/giftr/login'
+
+LOGIN_REDIRECT_URL = '/giftr/'
 
 TEMPLATES = [
     {
