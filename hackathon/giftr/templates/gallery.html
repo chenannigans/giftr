@@ -5,9 +5,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'pinterest.css' %}"/> 
 
 <body>
-
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add New Gift</a>
-
+<center>
+  <a class="waves-effect waves-light btn modal-trigger add-button" href="#modal1">Add New Gift<i class="material-icons right">note_add</i></a> 
+</center>
 <div id="modal1" class="modal">
     <div class="modal-content">
       <form action = "{% url 'upload_gift' %}" enctype="multipart/form-data" method = "post">
@@ -63,10 +63,11 @@ $(document).ready(function() {
   <div id="columns">
     {% for gift in gifts %}
       <div class="pin">
+        <a target="_blank" href="{% url 'get_url' gift.id %}">
         <img src="{% url 'get_photo' gift.id %}" />
         <p>
           {{ gift.description }}<br>
-          {{ gift.price }}
+          ${{ gift.price }}
         </p>
         {% if gift.category %}
           <div class="chip">{{ gift.category }}</div>
@@ -74,6 +75,7 @@ $(document).ready(function() {
         {% if gift.recipient_category %}
           <div class="chip">{{ gift.recipient_category }}</div>
         {% endif %}
+            </a>
       </div>
     {% endfor %}
   
