@@ -19,15 +19,18 @@
             <div class="card-content white-text">
               <span class="card-title">Log in to giftr</span>
              <form action="{% url 'userlogin' %}" method="post">
- 			 <input type="text" name="username" id="username" placeholder="text" value="{{ username }}"> <br>
+ 			 <input type="text" name="username" id="username" placeholder="Username" value="{{ username }}"> <br>
   		 <input type="password" name="password" id="password" placeholder="Password" value="{{ password }}"><br>
- 				 <input type="submit" text="Add item">
+  </button>
   				{% csrf_token %}
             </form>
             </div>
             <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href="#">This is a link</a>
+            <center>
+         <button class="btn waves-effect waves-light" type="submit" name="action">Enter
+        <i class="material-icons right">send</i>
+         </center>
+
             </div>
           </div>
       </div>
