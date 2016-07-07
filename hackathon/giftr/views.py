@@ -159,14 +159,17 @@ def get_url(request, id):
 	
 
 @login_required
-def search_gift(request, gift_str):
-	gift_str.replace(" ", "")
+def search_gift(request):
+	gift_str = request.GET['gift_str']
+	gift_str.strip(" ")
 	gift_strs = gift_str.split(",")
 	gifts = []
 	for s in gift_strs:
-		gifts.extend(Gift.objects.filter(category__iexact=s))
-		gifts.extend(Gift.objects.filter(recipient_category__iexact=s))
-		gifts.extend(Gift.objects.filter(description__iexact=s))
+		s.strip(" ")
+		print s
+		gifts.extend(Gift.objects.filter(category__icontains=s))
+		gifts.extend(Gift.objects.filter(recipient_category__icontains=s))
+		gifts.extend(Gift.objects.filter(description__icontains=s))
 	context = {}
 	context['form'] = GiftForm()
 	context['gifts'] = gifts

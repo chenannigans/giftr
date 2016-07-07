@@ -14,5 +14,5 @@ urlpatterns = [
 	url(r'^gift/url/(?P<id>\d+)$', get_url, name='get_url'),
     url(r'^userlogout$', userlogout, name="userlogout"),
 	url(r'^login_only$', login_only, name='login_only'),
-    url(r'^search_gift/(?P<gift_str>[^/]+)/$', search_gift, name='search_gift'),
+    url(r'^search_gift/$', search_gift, name='search_gift'),
 ]
