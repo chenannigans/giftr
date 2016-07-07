@@ -10,6 +10,9 @@ from django.http import HttpResponse, Http404
 from mimetypes import guess_type
 
 import imghdr
+import sys
+import getRewards
+import subprocess
 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -31,6 +34,8 @@ import imghdr
 
 from giftr.forms import *
 from django.conf import settings
+
+reward_balance = 0
 
 @login_required
 def gift_gallery(request):
@@ -95,6 +100,10 @@ def userlogin(request):
 	login(request, user)
 	return redirect(reverse('gift_gallery'))
 
+def get_rewards(url):
+	process = subprocess.Popen(["python","getRewards.py",url])
+	process.wait()
+
 def login_only(request):
 	errors = []
 	if request.method == 'GET':
@@ -109,6 +118,9 @@ def login_only(request):
 		context = {'errors':errors}
 		return render(request,'login_only.html', context)
 	login(request, user)
+	path = request.get_full_path()
+	print path
+	get_rewards(path)
 	return redirect(reverse('gift_gallery'))
 
 @login_required
