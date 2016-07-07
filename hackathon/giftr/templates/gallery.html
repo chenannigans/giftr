@@ -5,9 +5,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'pinterest.css' %}"/> 
 
 <body>
-
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add New Gift</a>
-
+<center>
+  <a class="waves-effect waves-light btn modal-trigger add-button" href="#modal1">Add New Gift</a>
+</center>
 <div id="modal1" class="modal">
     <div class="modal-content">
       <form action = "{% url 'upload_gift' %}" enctype="multipart/form-data" method = "post">
