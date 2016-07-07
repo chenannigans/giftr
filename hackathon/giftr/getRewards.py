@@ -17,6 +17,7 @@ rewardsAccountReferenceId = None
 
 global auth_token
 global prev_time
+global rewards
 
 
 def getCodeFromUrl(url):
@@ -30,7 +31,6 @@ def getAccessToken(code):
 	global auth_token
 	global prev_time
 
-	print(code)
 
 
 	headers = {
@@ -151,8 +151,12 @@ def main():
 	return 0
 
 
-if __name__ == '__main__':
-	main()
+url = sys.argv[1]
+code = getCodeFromUrl(url)
+if code is not None:
+	getAccessToken(code)
+	rewards = redeemMoney()
+rewards = 0
 
 
 
