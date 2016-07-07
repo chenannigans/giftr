@@ -179,9 +179,18 @@ def search_gift(request):
 	for s in gift_strs:
 		s.strip(" ")
 		print s
-		gifts.extend(Gift.objects.filter(category__icontains=s))
-		gifts.extend(Gift.objects.filter(recipient_category__icontains=s))
-		gifts.extend(Gift.objects.filter(description__icontains=s))
+		gift = Gift.objects.filter(category__icontains=s)
+		if not gift in gifts:
+			gifts.extend(gift)
+
+		gift = Gift.objects.filter(recipient_category__icontains=s)
+		if not gift in gifts:
+			gifts.extend(gift)
+
+		gift = Gift.objects.filter(description__icontains=s)
+		if not gift in gifts:
+			gifts.extend(gift)
+
 	context = {}
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
