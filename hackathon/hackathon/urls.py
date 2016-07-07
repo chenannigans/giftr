@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import include, url
-
+from giftr import views
 urlpatterns = [
     url(r'^giftr/', include('giftr.urls')),
-    url(r'^$', 'giftr.views.hello_world'),
+    url(r'^$', views.hello_world),
 ]

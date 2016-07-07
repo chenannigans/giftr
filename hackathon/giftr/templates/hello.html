@@ -6,6 +6,20 @@
 </head>
 
 <body>
+{% for error in errors %}
+<p style="color:red">
+{{error}}
+</p>
+{% endfor %}
+
+<p>
+Current todo list:
+<ol>
+{% for item in items %}
+  <li> <a href="/private-todo-list/delete-item/{{item.id}}">X</a> {{item}}
+{% endfor %}
+</ol>
+</p>
 
 <form action="/private-todo-list/add-item" method="post">
   Item to add: <input type="text" name="item">
@@ -18,3 +32,4 @@
 
 </body>
 </html>
+
