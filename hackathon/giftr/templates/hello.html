@@ -6,15 +6,32 @@
 </head>
 
 <body>
+<<<<<<< Updated upstream
+{% for error in errors %}
+<p style="color:red">
+{{error}}
+</p>
+{% endfor %}
+=======
+asdbaksjdbalsbdlsaskdlakblak
+>>>>>>> Stashed changes
 
-<form action="/private-todo-list/add-item" method="post">
-  Item to add: <input type="text" name="item">
-               <input type="submit" text="Add item">
+<p>
+Current todo list:
+<ol>
+{% for item in items %}
+  <li> <a href="/private-todo-list/delete-item/{{item.id}}">X</a> {{item}}
+{% endfor %}
+</ol>
+</p>
+
+<form action="{% url 'userlogin' %}" method="post">
+  Email: <input type="text" name="username" placeholder="text"> <br>
+  Password: <input type="password" name="password" placeholder="Password"><br>
+  <input type="submit" text="Add item">
   {% csrf_token %}
 </form>
-<p>
-<a href="/private-todo-list/logout">Logout</a>
-</p>
 
 </body>
 </html>
+

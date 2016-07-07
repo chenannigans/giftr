@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Giftr | Register</title>
+</head>
+
+<body>
+{% for error in form.errors %}
+<p style="color:red">
+{{error}}
+</p>
+{% endfor %}
+
+
+<form action="{% url 'register' %}" method="post">
+  {{ form }}
+  {% csrf_token %}
+  <input type="submit" value="Register" />
+</form>
+
+</body>
+</html>
+
