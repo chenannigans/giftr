@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from giftr.models import *
 from giftr.forms import * 
 from django.core.urlresolvers import reverse
@@ -14,13 +14,10 @@ import sys
 import getRewards
 import subprocess
 
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from itertools import islice, chain
@@ -30,7 +27,6 @@ from .models import *
 from .forms import *
 from mimetypes import guess_type
 from operator import attrgetter
-import imghdr
 
 from giftr.forms import *
 from django.conf import settings
@@ -43,6 +39,7 @@ def gift_gallery(request):
 	context['form'] = GiftForm()
 	context['gifts'] = Gift.objects.all()
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
@@ -135,7 +132,6 @@ def gift_form(request):
 
 @login_required
 def profile(request, who):
-
 	errors = []
 	if not User.objects.filter(username=who).exists():
 		return redirect(reverse('gift_gallery'))
@@ -144,6 +140,7 @@ def profile(request, who):
 	context={}
 	context['user'] = user
 	context['gifts'] = gifts
+	context['rewards_balance'] = reward_balance
 	return render(request,'profile.html', context)
 
 def userlogout(request):
@@ -167,14 +164,6 @@ def get_url(request, id):
 		url = "www.google.com/"
 	content_type = guess_type(url)
 	return redirect(gift.url, content_type=content_type)
-	
-# def get_photo(request, id):
-# 	gift = Gift.objects.get(id=id)
-# 	content_type = guess_type(gift.photo.name)
-# 	print gift.photo.name
-# 	return HttpResponse(gift.photo, content_type=content_type)
-
-
 
 @login_required
 def search_gift(request):
@@ -184,7 +173,6 @@ def search_gift(request):
 	gifts = []
 	for s in gift_strs:
 		s.strip(" ")
-		print s
 		gift = Gift.objects.filter(category__icontains=s)
 		if not gift in gifts:
 			gifts.extend(gift)
@@ -201,6 +189,7 @@ def search_gift(request):
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 	
 @login_required
@@ -212,8 +201,18 @@ def feeling_lucky(request):
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 	
-	#def link_to_capone(request):
-	#request.
-#return redirect("https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/login_only&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code")
+@login_required
+def rewards(request, who):
+	errors = []
+	if not User.objects.filter(username=who).exists():
+		return redirect(reverse('gift_gallery'))
+	user = User.objects.filter(username=who)[0]
+	gifts = Gift.objects.filter(user=user)
+	context={}
+	context['user'] = user
+	context['gifts'] = gifts
+	context['rewards_balance'] = reward_balance
+	return render(request,'profile.html', context)
