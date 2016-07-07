@@ -65,6 +65,7 @@ def register(request):
 		user = User.objects.create_user(username=form.cleaned_data['username'], \
 										password=form.cleaned_data['password1'],)
 		user.save()
+		user = authenticate(username=username, password=password)
 		login(request,user)
 	return redirect(reverse('hello_world'))
 
