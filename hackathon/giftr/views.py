@@ -31,6 +31,7 @@ from operator import attrgetter
 from giftr.forms import *
 from django.conf import settings
 
+authed = False
 reward_balance = 5000.00
 logged_in = False
 
@@ -46,6 +47,7 @@ def gift_gallery(request):
 		print "LOGGED IN!!!!!!"
 	else:
 		print "NOT LOGGED INNN"
+
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
@@ -222,7 +224,7 @@ def feeling_lucky(request):
 	context['user'] = request.user
 	context['rewards_balance'] = reward_balance
 	context['logged_in'] = logged_in
-	return render(request, 'gallery.html', context)
+	return render(request, 'random.html', context)
 	
 @login_required
 def rewards(request, who):
@@ -236,4 +238,4 @@ def rewards(request, who):
 	context['gifts'] = gifts
 	context['rewards_balance'] = reward_balance
 	context['logged_in'] = logged_in
-	return render(request,'profile.html', context)
+	return render(request,'rewards.html', context)

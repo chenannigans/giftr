@@ -14,8 +14,23 @@
   overflow:none;
 }
 
+.card-image{
+	margin-top:50px;
+	margin-bottom:-50px;
+}
+
+.card-image img{
+	width:30%;
+	margin:0 auto;
+}
+
 .top{
 	margin-top:-70px;
+}
+
+.pin{
+	width:80%;
+	margin:0 auto;
 }
 
 input:not([type]):focus:not([readonly]),

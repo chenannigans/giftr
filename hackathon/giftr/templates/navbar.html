@@ -11,10 +11,7 @@
       </form>
       <a href="{% url 'gift_gallery' %}" class="brand-logo center">giftr</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-
-      {% if logged_in%}
-       <li>My Balance : $ {{ rewards_balance }}0</li>
-       {% endif %}
+      <li>My Balance : ${{ rewards_balance }}0</li>
         <li><a href="{% url 'gift_gallery' %}">Gift Gallery</a></li>
         <li><a href="{% url 'profile' user.username %}">My Gifts</a></li>
         <li><a href="{% url 'rewards' user.username %}">My Rewards</a></li>
