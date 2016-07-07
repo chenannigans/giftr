@@ -173,18 +173,42 @@ def get_url(request, id):
 # 	content_type = guess_type(gift.photo.name)
 # 	print gift.photo.name
 # 	return HttpResponse(gift.photo, content_type=content_type)
-	
+
+
 
 @login_required
-def search_gift(request, gift_str):
-	gift_str.replace(" ", "")
+def search_gift(request):
+	gift_str = request.GET['gift_str']
+	gift_str.strip(" ")
 	gift_strs = gift_str.split(",")
 	gifts = []
 	for s in gift_strs:
-		gifts.extend(Gift.objects.filter(category__iexact=s))
-		gifts.extend(Gift.objects.filter(recipient_category__iexact=s))
-		gifts.extend(Gift.objects.filter(description__iexact=s))
+		s.strip(" ")
+		print s
+		gift = Gift.objects.filter(category__icontains=s)
+		if not gift in gifts:
+			gifts.extend(gift)
+
+		gift = Gift.objects.filter(recipient_category__icontains=s)
+		if not gift in gifts:
+			gifts.extend(gift)
+
+		gift = Gift.objects.filter(description__icontains=s)
+		if not gift in gifts:
+			gifts.extend(gift)
+
 	context = {}
+	context['form'] = GiftForm()
+	context['gifts'] = gifts
+	context['user'] = request.user
+	return render(request, 'gallery.html', context)
+	
+@login_required
+def feeling_lucky(request):
+	gift = Gift.objects.order_by('?').first()
+	context = {}
+	gifts = []
+	gifts.append(gift)
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
