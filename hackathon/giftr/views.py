@@ -103,9 +103,17 @@ def userlogin(request):
 def get_rewards(url):
 	process = subprocess.Popen(["python","getRewards.py",url])
 	process.wait()
+	reward_balance = getRewards.rewards
 
 def login_only(request):
+	path = request.get_full_path()
+	print path
+	path = "http://localhost:8000" + path
+	print path
+	get_rewards(path)
+	print reward_balance
 	errors = []
+	print request.GET
 	if request.method == 'GET':
 		errors.append("")
 		context = {'errors':errors}
@@ -115,12 +123,9 @@ def login_only(request):
 	user = authenticate(username=username, password=password)
 	if user is None:
 		errors.append("Invalid Password")
-		context = {'errors':errors}
+		context = {'errors':errors}/Users/kjk929/Desktop/giftr/hackathon/giftr/templates/login.html
 		return render(request,'login_only.html', context)
 	login(request, user)
-	path = request.get_full_path()
-	print path
-	get_rewards(path)
 	return redirect(reverse('gift_gallery'))
 
 @login_required
@@ -185,3 +190,6 @@ def search_gift(request, gift_str):
 	context['user'] = request.user
 	return render(request, 'gallery.html', context)
 	
+	#def link_to_capone(request):
+	#request.
+#return redirect("https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/login_only&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code")
