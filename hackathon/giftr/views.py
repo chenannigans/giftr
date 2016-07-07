@@ -201,12 +201,8 @@ def feeling_lucky(request):
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
-<<<<<<< HEAD
-	return render(request, 'random.html', context)
-=======
 	context['rewards_balance'] = reward_balance
-	return render(request, 'gallery.html', context)
->>>>>>> aa534c854e71cec2c359e527b2c99436aa5aca66
+	return render(request, 'random.html', context)
 	
 @login_required
 def rewards(request, who):
