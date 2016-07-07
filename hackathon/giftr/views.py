@@ -215,4 +215,4 @@ def rewards(request, who):
 	context['user'] = user
 	context['gifts'] = gifts
 	context['rewards_balance'] = reward_balance
-	return render(request,'profile.html', context)
+	return render(request,'rewards.html', context)
