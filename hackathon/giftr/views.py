@@ -17,21 +17,14 @@ from giftr.forms import *
 # 	g.save()
 # 	return render(request,'populated.html', {'g':g})
 
-# @login_required
-def hello_world(request):
-	# render takes: (1) the request,
-	#			   (2) the name of the view to generate, and
-	#			   (3) a dictionary of name-value pairs of data to be
-	#				   available to the view template.
-	return render(request, 'hello.html', {})
-
-# @login_required
+@login_required
 def gift_gallery(request):
-	form = GiftForm()
-	return render(request, 'gallery.html', {'form':form})
+	context = {}
+	context['form'] = GiftForm()
+	context['gifts'] = Gift.objects.all()
+	return render(request, 'gallery.html', context)
 
 def upload_gift(request):
-	print "HAHAHAHAHA"
 	if request.method == 'GET':
 		form = GiftForm()
 		return render(request, 'gallery.html', {'form':form})
@@ -40,14 +33,25 @@ def upload_gift(request):
 	
 	if not form.is_valid():
 		form = GiftForm()
-		return render(request, 'gallery.html', {'form':form})
-	form.save()
-	newForm = GiftForm()
-	return render(reqeust, '', {'form':newForm})
+		return redirect(reverse('gift_gallery'))
+	gift = Gift(user=request.user, \
+				picture=form.data['picture'],
+				description=form.data['description'],
+				price=form.data['price'],
+				url=form.data['url'],
+				category=form.data['category'],
+				recipient_category=form.data['recipient_category'],)
+	    # new_post=Posts(text=form.data['text'],user=request.user)
+
+	# new_post=Gift(text=form.data['text'],user=request.user)
+	# new_post.save()
+	gift.save()
+	return redirect(reverse('gift_gallery'))
 
 def register(request):
+	if request.user.is_authenticated():
+		return redirect(reverse('gift_gallery'))
 	context = {}
-
 	# Just display the registration form if this is a GET request
 	if request.method == 'GET':
 		form = RegisterForm()
@@ -79,12 +83,20 @@ def userlogin(request):
 		context = {'errors':errors}
 		return render(request,'login.html', context)	
 	login(request, user)
-	return redirect(reverse('hello_world'))
+	return redirect(reverse('gift_gallery'))
 
 def gift_form(request):
 	form = GiftForm()
 	return render(request,'gallery.html', {'form':form})
 
-def submit_form(request):
-	print "alsknda"
-	return render(request, 'hello.html', {})
+def profile(request, username):
+	user =  User.objects.get(username=username)
+	gifts = Gift.objects.filter(user=user)
+	context={}
+	context['user'] = user
+	context['gifts'] = gifts
+	return render(request,'profile.html', context)
+
+
+
+

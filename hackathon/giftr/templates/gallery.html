@@ -1,14 +1,5 @@
-<!DOCTYPE HTML>
-
-<html>
-<!-- Latest compiled and minified CSS -->
-<head>
-      <title>The Materialize Example</title>
-	  <meta name="viewport" content="width=device-width, initial-scale=1">      
-	  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
-      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>           
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>             
+{% include "base.html" %}
+          
 <body>
 
   <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
@@ -18,7 +9,7 @@ Log in to see your private todo list:
   
 <div id="modal1" class="modal">
     <div class="modal-content">
-      <form action = "{% url 'gift_upload' %}" method = "post">
+      <form action = "{% url 'upload_gift' %}" method = "post">
       {{form}}
 
     <div class="modal-footer">
@@ -26,6 +17,11 @@ Log in to see your private todo list:
     <i class="material-icons right">send</i>
   </button>
         
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+  <!-- <a class="waves-effect waves-light btn">Submit</a> -->
+
     </div>
   </div>
           

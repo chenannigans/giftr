@@ -7,7 +7,7 @@ urlpatterns = [
 
     # url(r'^populate$', populate, name='populate'),
     url(r'^register$', register, name='register'),
-    url(r'^submit_form$', submit_form, name = 'submit_form'),
     url(r'^gift_form$', gift_form, name = 'gift_form'),
     url(r'^upload_gift$', upload_gift, name='upload_gift'),
+    url(r'^(?P<username>\w+)$', profile, name='profile'),
 ]
