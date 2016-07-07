@@ -130,7 +130,6 @@ def gift_form(request):
 
 @login_required
 def profile(request, who):
-
 	errors = []
 	if not User.objects.filter(username=who).exists():
 		return redirect(reverse('gift_gallery'))
@@ -162,14 +161,6 @@ def get_url(request, id):
 		url = "www.google.com/"
 	content_type = guess_type(url)
 	return redirect(gift.url, content_type=content_type)
-	
-# def get_photo(request, id):
-# 	gift = Gift.objects.get(id=id)
-# 	content_type = guess_type(gift.photo.name)
-# 	print gift.photo.name
-# 	return HttpResponse(gift.photo, content_type=content_type)
-
-
 
 @login_required
 def search_gift(request):
@@ -179,7 +170,6 @@ def search_gift(request):
 	gifts = []
 	for s in gift_strs:
 		s.strip(" ")
-		print s
 		gift = Gift.objects.filter(category__icontains=s)
 		if not gift in gifts:
 			gifts.extend(gift)
@@ -209,3 +199,14 @@ def feeling_lucky(request):
 	context['user'] = request.user
 	return render(request, 'gallery.html', context)
 	
+@login_required
+def rewards(request, who):
+	errors = []
+	if not User.objects.filter(username=who).exists():
+		return redirect(reverse('gift_gallery'))
+	user = User.objects.filter(username=who)[0]
+	gifts = Gift.objects.filter(user=user)
+	context={}
+	context['user'] = user
+	context['gifts'] = gifts
+	return render(request,'profile.html', context)
