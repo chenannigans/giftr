@@ -63,8 +63,8 @@ $(document).ready(function() {
 <script src="{% static 'logout.js' %}"></script> -->
 
 
+<center>
 <div id="wrapper">
-  <div id="columns">
     {% for gift in gifts %}
       <div class="pin">
       {%if gift.url%}
@@ -90,3 +90,4 @@ $(document).ready(function() {
      
   </div>
 </div>
+</center>
