@@ -204,7 +204,6 @@ def feeling_lucky(request):
 	context['user'] = request.user
 	return render(request, 'gallery.html', context)
 	
-<<<<<<< HEAD
 @login_required
 def rewards(request, who):
 	errors = []
@@ -216,8 +215,3 @@ def rewards(request, who):
 	context['user'] = user
 	context['gifts'] = gifts
 	return render(request,'profile.html', context)
-=======
-	#def link_to_capone(request):
-	#request.
-#return redirect("https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/login_only&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code")
->>>>>>> 291d4e36039f922dce368ae5878b581703c8954e
