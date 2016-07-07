@@ -2,9 +2,9 @@
   
   <nav>
     <div class="nav-wrapper special">
-    <form>
+    <form action="{% url 'search_gift' %}" method="get">
         <div class="input-field search spec">
-          <input id="search" type="search" required>
+          <input id="search" name="gift_str" type="search" value="{{ gift_str }}" required>
           <label for="search"><i class="material-icons spec">search</i></label>
           <i class="material-icons spec">close</i>
         </div>
