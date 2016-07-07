@@ -63,16 +63,16 @@ $(document).ready(function() {
 <script src="{% static 'logout.js' %}"></script> -->
 
 
+<center>
 <div id="wrapper">
-  <div id="columns">
     {% for gift in gifts %}
       <div class="pin">
-    
-
-          {%if gift.url%}
+      {%if gift.url%}
         <a target="_blank" href="{% url 'get_url' gift.id %}">
-            {%endif%}
-        <img src="{% url 'get_photo' gift.id %}" />
+    {%endif%}
+
+          <img src="{% url 'get_photo' gift.id %}" />
+
         <p>
           {{ gift.description }}<br>
           ${{ gift.price }}
@@ -90,3 +90,4 @@ $(document).ready(function() {
      
   </div>
 </div>
+</center>
