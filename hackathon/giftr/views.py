@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
+from giftr.forms import *
 
 # def loginpage(request):
 # 	return render(request,'login.html', {})
@@ -59,3 +60,10 @@ def userlogin(request):
 		return render(request,'login.html', context)	
 	login(request, user)
 	return redirect(reverse('hello_world'))
+def gift_form(request):
+	form = GiftForm()
+	return render(request,'gift_form.html', {'form':form})
+
+def submit_form(request):
+	print "alsknda"
+	return render(request, 'hello.html', {})

@@ -1,35 +1,42 @@
 <!DOCTYPE HTML>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Private Todo List -- Login</title>
-</head>
 
+<html>
+<!-- Latest compiled and minified CSS -->
+<head>
+      <title>The Materialize Example</title>
+	  <meta name="viewport" content="width=device-width, initial-scale=1">      
+	  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>           
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>             
 <body>
 
-
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
 <p>
 Log in to see your private todo list:
 </p>
+  
+<div id="modal1" class="modal">
+    <div class="modal-content">
+      <form action = "/giftr/" method = "post">
+      {{form}}
 
-<form method="post" action="">
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
+    <div class="modal-footer">
+  <a class="waves-effect waves-light btn">Submit</a>
 
-<input type="submit" value="Login" />
-<a href="/private-todo-list/register">Register</a>
+    </div>
+  </div>
+          
 <input type="hidden" name="next" value="{{ next }}" />
 {% csrf_token %}
 </form>
 
 </body>
 </html>
+
+<script>
+$(document).ready(function() {
+  $('.modal-trigger').leanModal();
+});
+</script>
 
