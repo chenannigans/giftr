@@ -31,7 +31,6 @@ from operator import attrgetter
 from giftr.forms import *
 from django.conf import settings
 
-authed = False
 reward_balance = 5000.00
 
 @login_required
@@ -40,6 +39,7 @@ def gift_gallery(request):
 	context['form'] = GiftForm()
 	context['gifts'] = Gift.objects.all()
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
