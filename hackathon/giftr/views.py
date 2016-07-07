@@ -17,7 +17,7 @@ from giftr.forms import *
 # 	g.save()
 # 	return render(request,'populated.html', {'g':g})
 
-# @login_required
+@login_required
 def hello_world(request):
 	# render takes: (1) the request,
 	#			   (2) the name of the view to generate, and
@@ -46,8 +46,9 @@ def upload_gift(request):
 	return redirect(reverse('gift_gallery'))
 
 def register(request):
+	if request.user.is_authenticated():
+		return redirect(reverse('gift_gallery'))
 	context = {}
-
 	# Just display the registration form if this is a GET request
 	if request.method == 'GET':
 		form = RegisterForm()
@@ -79,7 +80,7 @@ def userlogin(request):
 		context = {'errors':errors}
 		return render(request,'login.html', context)	
 	login(request, user)
-	return redirect(reverse('hello_world'))
+	return redirect(reverse('gift_gallery'))
 
 def gift_form(request):
 	form = GiftForm()
