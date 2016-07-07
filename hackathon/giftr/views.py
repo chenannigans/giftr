@@ -1,13 +1,10 @@
 from django.shortcuts import render, redirect
 from giftr.models import *
-<<<<<<< Updated upstream
 from giftr.forms import * 
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 
-=======
 from giftr.forms import *
->>>>>>> Stashed changes
 
 # Create your views here.
 def hello_world(request):
@@ -22,7 +19,6 @@ def populate(request):
 	g.save()
 	return render(request,'populated.html', {'g':g})
 
-<<<<<<< Updated upstream
 
 def register(request):
 	context = {}
@@ -54,7 +50,6 @@ def userlogin(request):
 		return render(request,'hello.html', context)	
 	login(request, user)
 	return redirect(reverse('hello_world'))
-=======
 def gift_form(request):
 	form = GiftForm()
 	return render(request,'gift_form.html', {'form':form})
@@ -62,4 +57,3 @@ def gift_form(request):
 def submit_form(request):
 	print "alsknda"
 	return render(request, 'hello.html', {})
->>>>>>> Stashed changes

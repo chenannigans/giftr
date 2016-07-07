@@ -21,26 +21,6 @@ Log in to see your private todo list:
       <form action = "/giftr/" method = "post">
       {{form}}
 
-
-      <!-- <input type = "submit" value = "Submit"> -->
-
-<form method="post" action="">
-<table>
-<tr>
-    <td>{{ form.username.label_tag }}</td>
-    <td>{{ form.username }}</td>
-</tr>
-<tr>
-    <td>{{ form.password.label_tag }}</td>
-    <td>{{ form.password }}</td>
-</tr>
-</table>
-
-<input type="submit" value="Login" />
-<a href="/private-todo-list/register">Register</a>
-      {%csrf_token%}
-      </form>
-
     <div class="modal-footer">
   <a class="waves-effect waves-light btn">Submit</a>
 
