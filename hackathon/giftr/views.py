@@ -32,6 +32,7 @@ from giftr.forms import *
 from django.conf import settings
 
 reward_balance = 5000.00
+logged_in = False
 
 @login_required
 def gift_gallery(request):
@@ -104,25 +105,27 @@ def get_rewards(url):
 
 def login_only(request):
 	path = request.get_full_path()
-	print path
+	logged_in = True
+	print logged_in
 	path = "http://localhost:8000" + path
-	print path
 	get_rewards(path)
-	print reward_balance
 	errors = []
-	print request.GET
 	if request.method == 'GET':
 		errors.append("")
-		context = {'errors':errors}
+		context = {}
+		context['errors'] = errors
+		context['logged_in'] = logged_in
 		return render(request, 'login_only.html', context)
 	username = request.POST['username']
 	password = request.POST['password']
+	logged_in = True
 	user = authenticate(username=username, password=password)
 	if user is None:
 		errors.append("Invalid Password")
 		context = {'errors':errors}/Users/kjk929/Desktop/giftr/hackathon/giftr/templates/login.html
 		return render(request,'login_only.html', context)
 	login(request, user)
+	logged_in = True
 	return redirect(reverse('gift_gallery'))
 
 @login_required
@@ -141,6 +144,7 @@ def profile(request, who):
 	context['user'] = user
 	context['gifts'] = gifts
 	context['rewards_balance'] = reward_balance
+	context['logged_in'] = logged_in
 	return render(request,'profile.html', context)
 
 def userlogout(request):
@@ -173,6 +177,7 @@ def search_gift(request):
 	gifts = []
 	for s in gift_strs:
 		s.strip(" ")
+		
 		gift = Gift.objects.filter(category__icontains=s)
 		if not gift in gifts:
 			gifts.extend(gift)
@@ -185,11 +190,20 @@ def search_gift(request):
 		if not gift in gifts:
 			gifts.extend(gift)
 
+		if "price" in s:
+			price = float(s[6:])
+			LR = price - 10
+			HR = price + 10
+			gift = Gift.objects.filter(price__gte=LR, price__lte=HR)
+			if not gift in gifts:
+				gifts.extend(gift)
+
 	context = {}
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
 	context['rewards_balance'] = reward_balance
+	context['logged_in'] = logged_in
 	return render(request, 'gallery.html', context)
 	
 @login_required
@@ -202,6 +216,7 @@ def feeling_lucky(request):
 	context['gifts'] = gifts
 	context['user'] = request.user
 	context['rewards_balance'] = reward_balance
+	context['logged_in'] = logged_in
 	return render(request, 'random.html', context)
 	
 @login_required
@@ -215,4 +230,5 @@ def rewards(request, who):
 	context['user'] = user
 	context['gifts'] = gifts
 	context['rewards_balance'] = reward_balance
+	context['logged_in'] = logged_in
 	return render(request,'rewards.html', context)
