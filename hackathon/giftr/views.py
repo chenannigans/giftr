@@ -14,7 +14,7 @@ import imghdr
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, redirect, get_object_or_404
@@ -30,34 +30,19 @@ from operator import attrgetter
 import imghdr
 
 from giftr.forms import *
-
-# def loginpage(request):
-# 	return render(request,'login.html', {})
-
-# Create your views here.
-# # @login_required
-# def populate(request):
-# 	g = Gift(picture = "pic", description = "desc", price = 5.20, url = "urlrulrur", category = "cat", recipient_category = "recicat", user_id = 1)
-# 	g.save()
-# 	return render(request,'populated.html', {'g':g})
-
 from django.conf import settings
-
 
 @login_required
 def gift_gallery(request):
 	context = {}
 	context['form'] = GiftForm()
 	context['gifts'] = Gift.objects.all()
+	context['user'] = request.user
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
 @login_required
 def upload_gift(request):
-	# initial_path = car.photo.path
-	# car.photo.name = 'cars/chevy_ii.jpg'
-	# new_path = settings.MEDIA_ROOT + car.photo.name
-	print settings.MEDIA_ROOT
 	if request.method == 'GET':
 		form = GiftForm()
 		return render(request, 'gallery.html', {'form':form})
@@ -67,12 +52,9 @@ def upload_gift(request):
 	
 	if not form.is_valid():
 		form = GiftForm()
-		print "INVALID FORM"
 		return render(request, 'gallery.html', {'form':form})
 	form.photo = form.cleaned_data['photo']
 	form.save()
-		
-	print "SUCCESS UPLOAD"
 	return redirect(reverse('gift_gallery'))
 
 # @transaction.commit_on_success
@@ -93,18 +75,16 @@ def register(request):
 		user = User.objects.create_user(username=form.cleaned_data['username'], \
 										password=form.cleaned_data['password1'],)
 		user.save()
-		user = authenticate(username=username, password=password)
+		user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
 		login(request,user)
 	return redirect(reverse('gift_gallery'))
 
-@login_required
 def userlogin(request):
 	errors = []
 	if request.method == 'GET':
 		errors.append("")
 		context = {'errors':errors}
 		return render(request, 'login.html', context)
-
 	username = request.POST['username']
 	password = request.POST['password']
 	user = authenticate(username=username, password=password)
@@ -123,6 +103,7 @@ def gift_form(request):
 
 @login_required
 def profile(request, who):
+
 	errors = []
 	if not User.objects.filter(username=who).exists():
 		return redirect(reverse('gift_gallery'))
@@ -131,20 +112,23 @@ def profile(request, who):
 	context={}
 	context['user'] = user
 	context['gifts'] = gifts
-	print settings.MEDIA_ROOT
-	print settings.MEDIA_URL
 	return render(request,'profile.html', context)
 
-@login_required
 def userlogout(request):
-	logout_then_login(request)
-	print "TRYNA LOG OUT"
-	print request.User['username']
+	logout(request)
 	return redirect(reverse('gift_gallery'))
+	
 
+@login_required
 def get_photo(request, id):
 	gift = Gift.objects.get(id=id)
 	content_type = guess_type(gift.photo.name)
-	print gift.photo.name
-	return HttpResponse(gift.photo, mimetype=content_type)
+	return HttpResponse(gift.photo, content_type=content_type)
 	
+# def get_photo(request, id):
+# 	gift = Gift.objects.get(id=id)
+# 	content_type = guess_type(gift.photo.name)
+# 	print gift.photo.name
+# 	return HttpResponse(gift.photo, content_type=content_type)
+	
+
