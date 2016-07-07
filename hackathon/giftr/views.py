@@ -40,7 +40,6 @@ def gift_gallery(request):
 	context['form'] = GiftForm()
 	context['gifts'] = Gift.objects.all()
 	context['user'] = request.user
-	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
