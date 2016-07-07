@@ -11,7 +11,7 @@ from giftr.forms import *
 # 	return render(request,'login.html', {})
 
 # Create your views here.
-@login_required
+# @login_required
 def hello_world(request):
 	# render takes: (1) the request,
 	#			   (2) the name of the view to generate, and
