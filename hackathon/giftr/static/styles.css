@@ -46,6 +46,9 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
   color: #000000;
 }
 
+.right {
+float:right;
+}
 .btn{
 	background-color: white;
 	color:black;
@@ -57,6 +60,17 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 		color:white;
 
 }
+
+nav .nav-wrapper form, nav .nav-wrapper form .input-field{
+height: 100%;
+width:50%;
+float:left;}
+
+/*.search{
+	width:20%;
+	position:absolute;
+	float:right;
+}*/
 
 .nav-wrapper{
 	background-color: #7f0000;
@@ -77,4 +91,8 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 
 .cap-btn{
 	width:300px
+}
+
+.card-title{
+	text-align:center;
 }
