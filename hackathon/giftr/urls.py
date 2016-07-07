@@ -13,5 +13,6 @@ urlpatterns = [
     # url(r'^userlogout$', userlogout, name='userlogout'),
     url(r'^gift/photo/(?P<id>\d+)$', get_photo, name='get_photo'),
     url(r'^userlogout$', userlogout, name="userlogout"),
+	url(r'^login_only$', login_only, name='login_only'),
     # url(r'^lemme$', lemme, name="lemme"),
 ]

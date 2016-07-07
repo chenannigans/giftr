@@ -95,6 +95,21 @@ def userlogin(request):
 	login(request, user)
 	return redirect(reverse('gift_gallery'))
 
+def login_only(request):
+	errors = []
+	if request.method == 'GET':
+		errors.append("")
+		context = {'errors':errors}
+		return render(request, 'login_only.html', context)
+	username = request.POST['username']
+	password = request.POST['password']
+	user = authenticate(username=username, password=password)
+	if user is None:
+		errors.append("Invalid Password")
+		context = {'errors':errors}
+		return render(request,'login_only.html', context)
+	login(request, user)
+	return redirect(reverse('gift_gallery'))
 
 @login_required
 def gift_form(request):
