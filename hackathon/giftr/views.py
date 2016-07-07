@@ -11,19 +11,31 @@ from giftr.forms import *
 # 	return render(request,'login.html', {})
 
 # Create your views here.
-@login_required
-def hello_world(request):
-	# render takes: (1) the request,
-	#			   (2) the name of the view to generate, and
-	#			   (3) a dictionary of name-value pairs of data to be
-	#				   available to the view template.
-	return render(request, 'hello.html', {})
+# # @login_required
+# def populate(request):
+# 	g = Gift(picture = "pic", description = "desc", price = 5.20, url = "urlrulrur", category = "cat", recipient_category = "recicat", user_id = 1)
+# 	g.save()
+# 	return render(request,'populated.html', {'g':g})
 
-def populate(request):
-	g = Gift(picture = "pic", description = "desc", price = 5.20, url = "urlrulrur", category = "cat", recipient_category = "recicat", user_id = 1)
-	g.save()
-	return render(request,'populated.html', {'g':g})
+# @login_required
+def gift_gallery(request):
+	form = GiftForm()
+	return render(request, 'gallery.html', {'form':form})
 
+def upload_gift(request):
+	print "HAHAHAHAHA"
+	if request.method == 'GET':
+		form = GiftForm()
+		return render(request, 'gallery.html', {'form':form})
+	
+	form = GiftForm(request.POST)
+	
+	if not form.is_valid():
+		form = GiftForm()
+		return render(request, 'gallery.html', {'form':form})
+	form.save()
+	newForm = GiftForm()
+	return render(reqeust, '', {'form':newForm})
 
 def register(request):
 	context = {}
@@ -60,9 +72,10 @@ def userlogin(request):
 		return render(request,'login.html', context)	
 	login(request, user)
 	return redirect(reverse('hello_world'))
+
 def gift_form(request):
 	form = GiftForm()
-	return render(request,'gift_form.html', {'form':form})
+	return render(request,'gallery.html', {'form':form})
 
 def submit_form(request):
 	print "alsknda"

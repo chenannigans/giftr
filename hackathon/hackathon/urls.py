@@ -17,5 +17,5 @@ from django.conf.urls import include, url
 from giftr import views
 urlpatterns = [
     url(r'^giftr/', include('giftr.urls')),
-    url(r'^$', views.hello_world),
+    url(r'^$', views.gift_gallery),
 ]

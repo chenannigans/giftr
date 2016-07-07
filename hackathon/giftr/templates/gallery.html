@@ -18,7 +18,7 @@ Log in to see your private todo list:
   
 <div id="modal1" class="modal">
     <div class="modal-content">
-      <form action = "/giftr/" method = "post">
+      <form action = "{% url 'gift_upload' %}" method = "post">
       {{form}}
 
     <div class="modal-footer">
