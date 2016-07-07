@@ -12,7 +12,7 @@ class GiftForm(forms.ModelForm):
     """
     class Meta:
         model=Gift
-        exclude = 'user','picture'
+        exclude = ('user',)
         # fields = ('photo', 'description', 'price', 'url','category','recipient_category')
         widgets = {'photo' : forms.FileInput() }
     def clean(self):

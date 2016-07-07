@@ -1,17 +1,38 @@
 {% include "base.html" %}
-          
+{% include "navbar.html" %}
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'pinterest.css' %}"/> 
+
 <body>
 
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add Gift To Gallery</a>
-<p>
-Log in to see your private todo list:
-</p>
-<a class="waves-effect waves-light btn" href="/giftr/login">LOG OUT</a>
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add New Gift</a>
 
 <div id="modal1" class="modal">
     <div class="modal-content">
       <form action = "{% url 'upload_gift' %}" enctype="multipart/form-data" method = "post">
-      {{form}}
+      <!-- {{form}} -->
+      {% for field in form %}
+        {% if field.name != "photo" %}
+        <div class="row">
+        <div class="input-field col s12">
+          {{ field }}
+          <label for="{{ field.name }}">{{ field.label }}</label>
+        </div>
+      </div>
+      {% else %}
+      {% endif %}
+      {% endfor %}
+      <div class="file-field input-field">
+      <div class="btn">
+        <span>Photo</span>
+        {{ form.photo }}
+      </div>
+      <div class="file-path-wrapper">
+        <input class="file-path validate" type="text">
+      </div>
+    </div>
+
 
       <div class="modal-footer">
       <button class="btn waves-effect waves-light" type="submit" name="action">Submit
@@ -19,13 +40,11 @@ Log in to see your private todo list:
     </button>
     
     </div>
-  
-
-
-          
-<input type="hidden" name="next" value="{{ next }}" />
-{% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    {% csrf_token %}
 </form>
+</div>
+</div>
 
 </body>
 </html>
@@ -35,4 +54,149 @@ $(document).ready(function() {
   $('.modal-trigger').leanModal();
 });
 </script>
+<!-- {% load staticfiles %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="{% static 'logout.js' %}"></script> -->
 
+
+<div id="wrapper">
+  <div id="columns">
+    {% for gift in gifts %}
+      <div class="pin">
+        <img src="{% url 'get_photo' gift.id %}" />
+        <p>
+          {{ gift.description }}<br>
+          {{ gift.price }}
+        </p>
+        {% if gift.category %}
+          <div class="chip">{{ gift.category }}</div>
+        {% endif %}
+        {% if gift.recipient_category %}
+          <div class="chip">{{ gift.recipient_category }}</div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
+      <p>
+        Donec a fermentum nisi. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
+      <p>
+        Nullam eget lectus augue. Donec eu sem sit amet ligula 
+        faucibus suscipit. Suspendisse rutrum turpis quis nunc 
+        convallis quis aliquam mauris suscipit.
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/8/8kEc1hS.png" />
+      <p>
+        Nullam eget lectus augue. Donec eu sem sit amet ligula 
+        faucibus suscipit. Suspendisse rutrum turpis quis nunc 
+        convallis quis aliquam mauris suscipit.
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
+      <p>
+        Donec a fermentum nisi. Integer dolor est, commodo ut 
+        sagittis vitae, egestas at augue. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
+        ac blandit dui. Duis rutrum porta tortor ut convallis.
+        Duis rutrum porta tortor ut convallis.
+      </p>
+    </div>  
+    
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
+      <p>
+        Nullam eget lectus augue. Donec eu sem sit amet ligula 
+        faucibus suscipit. Suspendisse rutrum turpis quis nunc 
+        convallis quis aliquam mauris suscipit.
+        Duis rutrum porta tortor ut convallis.
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
+      <p>
+        Nullam eget lectus augue. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/8/8kEc1hS.png" />
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed feugiat consectetur pellentesque. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
+      <p>
+        Donec a fermentum nisi. Integer dolor est, commodo ut 
+        sagittis vitae, egestas at augue. Suspendisse id nulla 
+        ac urna vestibulum mattis. Duis rutrum porta tortor ut convallis.
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
+      <p>
+        Donec a fermentum nisi. Integer dolor est, commodo ut 
+        sagittis vitae, egestas at augue. Suspendisse id nulla 
+        ac urna vestibulum mattis. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
+        ac blandit dui. Duis rutrum porta tortor ut convallis.
+      </p>
+    </div>  
+    
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/2/2v3VhAp.png" />
+      <p>
+        Donec a fermentum nisi. Integer dolor est, commodo ut 
+        sagittis vitae, egestas at augue. Suspendisse id nulla 
+        ac urna vestibulum mattis. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/1/1swi3Qy.png" />
+      <p>
+        Donec a fermentum nisi. Integer dolor est, commodo ut 
+        sagittis vitae, egestas at augue. Suspendisse id nulla 
+        ac urna vestibulum mattis. 
+      </p>
+    </div>
+  
+    <div class="pin">
+      <img src="http://cssdeck.com/uploads/media/items/6/6f3nXse.png" />
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed feugiat consectetur pellentesque. Nam ac elit risus, 
+        ac blandit dui. Duis rutrum porta tortor ut convallis.
+      </p>
+    </div>
+  </div>
+</div>
