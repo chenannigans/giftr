@@ -26,8 +26,8 @@ input[type=tel]:focus:not([readonly]),
 input[type=number]:focus:not([readonly]),
 input[type=search]:focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
-  border-bottom: 1px solid #000000;
-  box-shadow: 0 1px 0 0 #000000;
+ /* border-bottom: 1px solid #000000;
+  box-shadow: 0 1px 0 0 #000000;*/
 }
 
 input:not([type]):focus:not([readonly]) + label,
@@ -61,10 +61,38 @@ float:right;
 
 }
 
+.search{
+	color:white;
+}
+
 nav .nav-wrapper form, nav .nav-wrapper form .input-field{
 height: 100%;
-width:50%;
+width:60%;
 float:left;}
+
+.input-field input[type=search]:focus{
+	background-color:#7f0000;
+	border-style:1px solid;
+	color:white;
+
+}
+
+.input-field{
+	color:white;
+}
+
+.input-field input[type=search]:focus ~ .material-icons{
+	color:white;
+	border-style:1px solid;
+	opacity:1;
+}
+
+input[type=search], textarea.materialize-textarea {
+	color:white;
+	opacity:1;
+}
+
+
 
 /*.search{
 	width:20%;
