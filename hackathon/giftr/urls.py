@@ -8,4 +8,5 @@ urlpatterns = [
     # url(r'^hello.html$', 'intro.hello'),
     url(r'^populate$', populate, name='populate'),
     url(r'^register$', register, name='register'),
+    url(r'^userlogin$', userlogin, name='userlogin'),
 ]

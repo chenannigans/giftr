@@ -6,7 +6,7 @@
 </head>
 
 <body>
-{% for error in errors %}
+{% for error in form.errors %}
 <p style="color:red">
 {{error}}
 </p>
@@ -16,6 +16,7 @@
 <form action="{% url 'register' %}" method="post">
   {{ form }}
   {% csrf_token %}
+  <input type="submit" value="Register" />
 </form>
 
 </body>

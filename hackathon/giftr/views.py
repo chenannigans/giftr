@@ -1,6 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from giftr.models import *
 from giftr.forms import * 
+from django.core.urlresolvers import reverse
+from django.contrib.auth import login, authenticate
+
 
 # Create your views here.
 def hello_world(request):
@@ -21,53 +24,28 @@ def register(request):
 
 	# Just display the registration form if this is a GET request
 	if request.method == 'GET':
-		# form = RegisterForm()
 		form = RegisterForm()
 		# context['form'] = RegisterForm()
 		return render(request, 'register.html', {'form':form})
 
-	errors = []
-	context['errors'] = errors
-
 	form = RegisterForm(request.POST)
-	if form.is_valid():
-		return render(request, 'hello.html', {})
+	if not form.is_valid():
+		return render(request, 'register.html', {'form':form})
 	else:
-		form = RegisterForm()
+		user = User.objects.create_user(username=form.cleaned_data['username'], \
+										password=form.cleaned_data['password1'],)
+		user.save()
+		login(request,user)
+	return redirect(reverse('hello_world'))
 
-	return render(request,'register.html', {'form':form})
-
-# def login(request):
-# 	context = {}
-
-# 	# Just display the registration form if this is a GET request
-# 	if request.method == 'GET':
-# 		return render(request, 'register.html', context)
-
-# 	errors = []
-# 	context['errors'] = errors
-
-# 	# Checks the validity of the form data
-# 	if not 'username' in request.POST or not request.POST['username']:
-# 		errors.append('Username is required.')
-# 	else:
-# 		# Save the username in the request context to re-fill the username
-# 		# field in case the form has errrors
-# 	context['username'] = request.POST['username']
-
-# 	if not 'password' in request.POST or not request.POST['password']:
-# 	errors.append('Password is required.')
-
-# 	if errors:
-# 		return render(request, 'register.html', context)
-
-# 	# Creates the new user from the valid form data
-# 	new_user = User.objects.create_user(username=request.POST['username'], \
-# 										password=request.POST['password1'])
-# 	new_user.save()
-
-# 	# Logs in the new user and redirects to his/her todo list
-# 	new_user = authenticate(username=request.POST['username'], \
-# 							password=request.POST['password'])
-# 	login(request, new_user)
-# 	return redirect('/giftr/')
+def userlogin(request):
+	username = request.POST['username']
+	password = request.POST['password']
+	user = authenticate(username=username, password=password)
+	if user is None:
+		errors = []
+		errors.append("Invalid Password")
+		context = {'errors':errors}
+		return render(request,'hello.html', context)	
+	login(request, user)
+	return redirect(reverse('hello_world'))

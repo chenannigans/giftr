@@ -21,14 +21,12 @@ Current todo list:
 </ol>
 </p>
 
-<form action="/private-todo-list/add-item" method="post">
-  Item to add: <input type="text" name="item">
-               <input type="submit" text="Add item">
+<form action="{% url 'userlogin' %}" method="post">
+  Email: <input type="text" name="username" placeholder="text"> <br>
+  Password: <input type="password" name="password" placeholder="Password"><br>
+  <input type="submit" text="Add item">
   {% csrf_token %}
 </form>
-<p>
-<a href="/private-todo-list/logout">Logout</a>
-</p>
 
 </body>
 </html>
