@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^userlogout$', userlogout, name="userlogout"),
 	url(r'^login_only$', login_only, name='login_only'),
     url(r'^search_gift/$', search_gift, name='search_gift'),
+    url(r'^feeling_lucky/$', feeling_lucky, name='feeling_lucky'),
 ]

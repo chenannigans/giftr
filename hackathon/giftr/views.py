@@ -168,7 +168,8 @@ def get_url(request, id):
 # 	content_type = guess_type(gift.photo.name)
 # 	print gift.photo.name
 # 	return HttpResponse(gift.photo, content_type=content_type)
-	
+
+
 
 @login_required
 def search_gift(request):
@@ -192,6 +193,17 @@ def search_gift(request):
 			gifts.extend(gift)
 
 	context = {}
+	context['form'] = GiftForm()
+	context['gifts'] = gifts
+	context['user'] = request.user
+	return render(request, 'gallery.html', context)
+	
+@login_required
+def feeling_lucky(request):
+	gift = Gift.objects.order_by('?').first()
+	context = {}
+	gifts = []
+	gifts.append(gift)
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
