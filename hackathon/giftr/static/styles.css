@@ -52,6 +52,12 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 	opacity:1;
 }
 
+.btn:hover{
+		background-color: #7f0000;
+		color:white;
+
+}
+
 .nav-wrapper{
 	background-color: #7f0000;
 }
