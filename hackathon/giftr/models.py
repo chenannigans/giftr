@@ -6,6 +6,13 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+class RecipientCatetory(models.Model):
+	name = models.CharField(max_length=100)
+
+class GiftCategory(models.Model):
+	categoryName = models.CharField(max_length=100)
+
+
 class Gift(models.Model):
 	user = models.ForeignKey(User)
 	picture = models.CharField(max_length=100)
@@ -18,8 +25,3 @@ class Gift(models.Model):
 	category = models.CharField(max_length=200)
 	recipient_category = models.CharField(max_length=200)
 
-class RecipientCatetory(models.Model):
-	name = models.CharField(max_length=100)
-
-class GiftCategory(models.Model):
-	categoryName = models.CharField(max_length=100)

@@ -1,9 +1,10 @@
 {% include "base.html" %}
 
-{{ user.username }} IS HERE!!! 
+{{ user.username }} IS HERE!
 
 {% for gift in gifts %}
 <p style="color:red">
 {{ gift.description }}
+<img src="{% url 'get_photo' gift.id %}" alt="{{gift.description}}">
 </p>
 {% endfor %}
