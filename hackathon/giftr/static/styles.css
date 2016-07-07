@@ -18,6 +18,11 @@
 	margin-top:-70px;
 }
 
+.pin{
+	width:80%;
+	margin:0 auto;
+}
+
 input:not([type]):focus:not([readonly]),
 input[type=text]:focus:not([readonly]),
 input[type=password]:focus:not([readonly]),

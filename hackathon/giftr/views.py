@@ -207,5 +207,5 @@ def feeling_lucky(request):
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
-	return render(request, 'gallery.html', context)
+	return render(request, 'random.html', context)
 	
