@@ -143,7 +143,12 @@ def get_photo(request, id):
 @login_required
 def get_url(request, id):
 	gift = Gift.objects.get(id=id)
-	content_type = guess_type(gift.url)
+	url = gift.url
+	if not gift.url:
+		url = "www.google.com/"
+	if gift.url == "":
+		url = "www.google.com/"
+	content_type = guess_type(url)
 	return redirect(gift.url, content_type=content_type)
 	
 # def get_photo(request, id):
@@ -153,3 +158,18 @@ def get_url(request, id):
 # 	return HttpResponse(gift.photo, content_type=content_type)
 	
 
+@login_required
+def search_gift(request, gift_str):
+	gift_str.replace(" ", "")
+	gift_strs = gift_str.split(",")
+	gifts = []
+	for s in gift_strs:
+		gifts.extend(Gift.objects.filter(category__iexact=s))
+		gifts.extend(Gift.objects.filter(recipient_category__iexact=s))
+		gifts.extend(Gift.objects.filter(description__iexact=s))
+	context = {}
+	context['form'] = GiftForm()
+	context['gifts'] = gifts
+	context['user'] = request.user
+	return render(request, 'gallery.html', context)
+	
