@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from giftr.models import *
 from giftr.forms import * 
 from django.core.urlresolvers import reverse
@@ -14,13 +14,10 @@ import sys
 import getRewards
 import subprocess
 
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
-from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from itertools import islice, chain
@@ -30,7 +27,6 @@ from .models import *
 from .forms import *
 from mimetypes import guess_type
 from operator import attrgetter
-import imghdr
 
 from giftr.forms import *
 from django.conf import settings
@@ -43,6 +39,7 @@ def gift_gallery(request):
 	context['form'] = GiftForm()
 	context['gifts'] = Gift.objects.all()
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
@@ -143,6 +140,7 @@ def profile(request, who):
 	context={}
 	context['user'] = user
 	context['gifts'] = gifts
+	context['rewards_balance'] = reward_balance
 	return render(request,'profile.html', context)
 
 def userlogout(request):
@@ -191,6 +189,7 @@ def search_gift(request):
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 	
 @login_required
@@ -202,6 +201,7 @@ def feeling_lucky(request):
 	context['form'] = GiftForm()
 	context['gifts'] = gifts
 	context['user'] = request.user
+	context['rewards_balance'] = reward_balance
 	return render(request, 'gallery.html', context)
 	
 @login_required
@@ -214,4 +214,5 @@ def rewards(request, who):
 	context={}
 	context['user'] = user
 	context['gifts'] = gifts
+	context['rewards_balance'] = reward_balance
 	return render(request,'profile.html', context)
