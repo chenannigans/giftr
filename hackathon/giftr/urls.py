@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^register$', register, name='register'),
     url(r'^gift_form$', gift_form, name = 'gift_form'),
     url(r'^upload_gift$', upload_gift, name='upload_gift'),
+    url(r'^(?P<username>\w+)$', profile, name='profile'),
 ]

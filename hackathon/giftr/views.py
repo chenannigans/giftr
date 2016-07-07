@@ -34,7 +34,18 @@ def upload_gift(request):
 	if not form.is_valid():
 		form = GiftForm()
 		return redirect(reverse('gift_gallery'))
-	form.save()
+	gift = Gift(user=request.user, \
+				picture=form.data['picture'],
+				description=form.data['description'],
+				price=form.data['price'],
+				url=form.data['url'],
+				category=form.data['category'],
+				recipient_category=form.data['recipient_category'],)
+	    # new_post=Posts(text=form.data['text'],user=request.user)
+
+	# new_post=Gift(text=form.data['text'],user=request.user)
+	# new_post.save()
+	gift.save()
 	return redirect(reverse('gift_gallery'))
 
 def register(request):
@@ -77,3 +88,15 @@ def userlogin(request):
 def gift_form(request):
 	form = GiftForm()
 	return render(request,'gallery.html', {'form':form})
+
+def profile(request, username):
+	user =  User.objects.get(username=username)
+	gifts = Gift.objects.filter(user=user)
+	context={}
+	context['user'] = user
+	context['gifts'] = gifts
+	return render(request,'profile.html', context)
+
+
+
+
