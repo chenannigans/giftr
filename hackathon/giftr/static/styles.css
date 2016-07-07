@@ -65,3 +65,16 @@ textarea.materialize-textarea:focus:not([readonly]) + label {
 .add-button{
 	margin-top:20px;
 }
+
+.left-btn{
+	float:left;
+	margin-bottom:30px;
+}
+
+.right-btn{
+	float:right;
+}
+
+.cap-btn{
+	width:300px
+}
