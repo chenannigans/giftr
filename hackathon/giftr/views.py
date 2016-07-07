@@ -27,11 +27,12 @@ def hello_world(request):
 
 # @login_required
 def gift_gallery(request):
-	form = GiftForm()
-	return render(request, 'gallery.html', {'form':form})
+	context = {}
+	context['form'] = GiftForm()
+	context['gifts'] = Gift.objects.all()
+	return render(request, 'gallery.html', context)
 
 def upload_gift(request):
-	print "HAHAHAHAHA"
 	if request.method == 'GET':
 		form = GiftForm()
 		return render(request, 'gallery.html', {'form':form})
@@ -40,10 +41,9 @@ def upload_gift(request):
 	
 	if not form.is_valid():
 		form = GiftForm()
-		return render(request, 'gallery.html', {'form':form})
+		return redirect(reverse('gift_gallery'))
 	form.save()
-	newForm = GiftForm()
-	return render(reqeust, '', {'form':newForm})
+	return redirect(reverse('gift_gallery'))
 
 def register(request):
 	context = {}

@@ -18,11 +18,14 @@ Log in to see your private todo list:
   
 <div id="modal1" class="modal">
     <div class="modal-content">
-      <form action = "{% url 'gift_upload' %}" method = "post">
+      <form action = "{% url 'upload_gift' %}" method = "post">
       {{form}}
 
     <div class="modal-footer">
-  <a class="waves-effect waves-light btn">Submit</a>
+    <button class="btn waves-effect waves-light" type="submit" name="action">Submit
+    <i class="material-icons right">send</i>
+  </button>
+  <!-- <a class="waves-effect waves-light btn">Submit</a> -->
 
     </div>
   </div>
