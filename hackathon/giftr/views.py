@@ -3,9 +3,14 @@ from giftr.models import *
 from giftr.forms import * 
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
 
+
+# def loginpage(request):
+# 	return render(request,'login.html', {})
 
 # Create your views here.
+@login_required
 def hello_world(request):
 	# render takes: (1) the request,
 	#			   (2) the name of the view to generate, and
@@ -39,13 +44,18 @@ def register(request):
 	return redirect(reverse('hello_world'))
 
 def userlogin(request):
+	errors = []
+	if request.method == 'GET':
+		errors.append("")
+		context = {'errors':errors}
+		return render(request, 'login.html', context)
+
 	username = request.POST['username']
 	password = request.POST['password']
 	user = authenticate(username=username, password=password)
 	if user is None:
-		errors = []
 		errors.append("Invalid Password")
 		context = {'errors':errors}
-		return render(request,'hello.html', context)	
+		return render(request,'login.html', context)	
 	login(request, user)
 	return redirect(reverse('hello_world'))
