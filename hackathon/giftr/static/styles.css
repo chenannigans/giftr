@@ -1,8 +1,12 @@
-.center{
+.card{
 	margin: 0 auto;
-	border-style: 1px;
+	width:30%;
+  transform: translateY(50%);
+  opacity: .9;
 }
 
-*{
-	background-color:black;
+.background img{
+  width:100%;
+  height:100%;
+  position: absolute;
 }
