@@ -31,6 +31,7 @@ from operator import attrgetter
 from giftr.forms import *
 from django.conf import settings
 
+authed = False
 reward_balance = 5000.00
 
 @login_required
