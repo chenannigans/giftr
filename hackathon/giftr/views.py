@@ -35,7 +35,7 @@ import imghdr
 from giftr.forms import *
 from django.conf import settings
 
-reward_balance = 0
+reward_balance = 5000.00
 
 @login_required
 def gift_gallery(request):
