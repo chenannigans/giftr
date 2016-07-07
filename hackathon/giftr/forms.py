@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import *
-from .forms import *
+from models import *
+from forms import *
 
 from django.contrib.auth.models import User
 
@@ -12,13 +12,21 @@ class GiftForm(forms.ModelForm):
     """
     class Meta:
         model=Gift
-        fields = ('picture', 'description', 'price', 'url','category','recipient_category')
+        exclude = 'user','picture'
+        # fields = ('photo', 'description', 'price', 'url','category','recipient_category')
+        widgets = {'photo' : forms.FileInput() }
     def clean(self):
         cleaned_data = super(GiftForm, self).clean()
-        first_name = cleaned_data.get("category")
-        last_name = cleaned_data.get("last_name")
-        if first_name =='':
-            raise forms.ValidationError("Must provide gift category")
+        price = cleaned_data.get("price")
+        description = cleaned_data.get("description")
+        if not 'description' in self.cleaned_data:
+            raise forms.ValidationError("Description is required")
+        if description == "":
+            print "description error"
+            raise forms.ValidationError("Description is required")
+        if price < 0:
+            print "price error"
+            raise forms.ValidationError("Must provide valid price")
         return cleaned_data
 
 class LoginForm(forms.ModelForm):
@@ -61,6 +69,8 @@ class RegisterForm(forms.ModelForm):
         password2 = cleaned_data.get("password2")
         if username =='':
             raise forms.ValidationError("Must enter username")
+        if User.objects.filter(username__exact=username):
+            raise forms.ValidationError("Username is already taken.")
         if password1 =='':
             raise forms.ValidationError("Must enter password")
         if password2 =='':  
