@@ -31,7 +31,8 @@ def getAccessToken(code):
 	global auth_token
 	global prev_time
 
-
+#response = requests.get('https://api.spotify.com/v1/albums/0sNOF9WDwhWunNAHPD3Baj')
+#	print(response.json())
 
 	headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
