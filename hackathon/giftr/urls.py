@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^profile/(?P<who>[^/]+)/$', profile, name='profile'),
     # url(r'^userlogout$', userlogout, name='userlogout'),
     url(r'^gift/photo/(?P<id>\d+)$', get_photo, name='get_photo'),
+	url(r'^gift/url/(?P<id>\d+)$', get_url, name='get_url'),
     url(r'^userlogout$', userlogout, name="userlogout"),
 	url(r'^login_only$', login_only, name='login_only'),
     # url(r'^lemme$', lemme, name="lemme"),

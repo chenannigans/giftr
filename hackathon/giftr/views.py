@@ -139,6 +139,12 @@ def get_photo(request, id):
 	gift = Gift.objects.get(id=id)
 	content_type = guess_type(gift.photo.name)
 	return HttpResponse(gift.photo, content_type=content_type)
+
+@login_required
+def get_url(request, id):
+	gift = Gift.objects.get(id=id)
+	content_type = guess_type(gift.url)
+	return redirect(gift.url, content_type=content_type)
 	
 # def get_photo(request, id):
 # 	gift = Gift.objects.get(id=id)

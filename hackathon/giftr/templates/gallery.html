@@ -63,6 +63,7 @@ $(document).ready(function() {
   <div id="columns">
     {% for gift in gifts %}
       <div class="pin">
+        <a href="{% url 'get_url' gift.id %}">
         <img src="{% url 'get_photo' gift.id %}" />
         <p>
           {{ gift.description }}<br>
@@ -74,6 +75,7 @@ $(document).ready(function() {
         {% if gift.recipient_category %}
           <div class="chip">{{ gift.recipient_category }}</div>
         {% endif %}
+            </a>
       </div>
     {% endfor %}
   
