@@ -101,8 +101,16 @@ def userlogin(request):
 	# thing = request.POST['login']
 	# print thing
 
-	thing2 = request.POST['link']
+	thing2 = request.POST['enter']
+	if (thing2 == "enter"):
+		print "ENTERED HERE"
+		return redirect(reverse('gift_gallery'))
+	else:
+		print "ENTERED CAP ONE"
+		return redirect('https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/login_only&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code')
 	print thing2
+	print request.path
+	print request.get_full_path()
 
 	return redirect(reverse('gift_gallery'))
 
