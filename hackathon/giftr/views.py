@@ -114,11 +114,6 @@ def userlogin(request):
 
 	# return redirect(reverse('gift_gallery'))
 
-def get_rewards(url):
-	process = subprocess.Popen(["python","getRewards.py",url])
-	process.wait()
-	reward_balance = getRewards.rewards
-	print("Your rewards: %d", reward_balance)
 
 @login_required
 def login_only(request):
@@ -147,6 +142,8 @@ def login_only(request):
 	print 'logged in to capital one account'
 	print request.path
 	print request.GET['code']
+	code = request.GET['code']
+	# getRewards.get_cards(code)
 	return redirect(reverse('gift_gallery'))
 
 @login_required
