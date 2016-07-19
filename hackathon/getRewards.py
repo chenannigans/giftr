@@ -20,13 +20,6 @@ prev_time
 selected_account
 
 
-def get_code_from_url(url):
-    parsed = urlparse.parse_qs(urlparse.urlparse(url).query)
-    print(parsed)
-    if 'code' in parsed:
-        return parsed['code'][0]
-    return None
-
 
 def get_access_token(code):
     global auth_token
@@ -137,9 +130,8 @@ def redeem_money():
 
 
 def get_cards(auth_code):
-    code = get_code_from_url(auth_code)
-    if code is not None:
-        get_access_token(code)
+    if auth_code is not None:
+        get_access_token(auth_code)
         get_rewards_accounts()
         return cards
     return None
@@ -161,6 +153,3 @@ def get_card_information(i):
         card["rewards_balance"] = int(account["rewardsBalance"].replace(",", ""))
 
     return card
-
-
-
