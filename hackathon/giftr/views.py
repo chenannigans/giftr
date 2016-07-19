@@ -252,19 +252,6 @@ def feeling_lucky(request):
 
 @login_required
 def rewards(request, who):
-<<<<<<< HEAD
-    errors = []
-    if not User.objects.filter(username=who).exists():
-        return redirect(reverse('gift_gallery'))
-    user = User.objects.filter(username=who)[0]
-    gifts = Gift.objects.filter(user=user)
-    context = {}
-    context['user'] = user
-    context['gifts'] = gifts
-    context['rewards_balance'] = reward_balance
-    context['logged_in'] = logged_in
-    return render(request, 'rewards.html', context)
-=======
 	errors = []
 	if not User.objects.filter(username=who).exists():
 		return redirect(reverse('gift_gallery'))
@@ -281,5 +268,3 @@ def rewards(request, who):
 def cap_one_connect(request):
 	print request.path
 	return redirect(reverse('gift_gallery'))
-
->>>>>>> edb63b80d565ed69ea1488608e156bfb5571ab50
