@@ -95,6 +95,7 @@ def userlogin(request):
 		errors.append("")
 		context = {'errors':errors}
 		return render(request, 'login.html', context)
+
 	username = request.POST['username']
 	password = request.POST['password']
 	user = authenticate(username=username, password=password)
@@ -103,12 +104,20 @@ def userlogin(request):
 		context = {'errors':errors}
 		return render(request,'login.html', context)	
 	login(request, user)
+
+	# thing = request.POST['login']
+	# print thing
+
+	thing2 = request.POST['link']
+	print thing2
+
 	return redirect(reverse('gift_gallery'))
 
 def get_rewards(url):
 	process = subprocess.Popen(["python","getRewards.py",url])
 	process.wait()
 	reward_balance = getRewards.rewards
+	print("Your rewards: %d", reward_balance)
 
 def login_only(request):
 	path = request.get_full_path()
