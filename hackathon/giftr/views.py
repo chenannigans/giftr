@@ -102,17 +102,17 @@ def userlogin(request):
 	# print thing
 
 	thing2 = request.POST['enter']
-	if (thing2 == "enter"):
+	if (thing2 == "login"):
 		print "ENTERED HERE"
 		return redirect(reverse('gift_gallery'))
-	else:
+	elif (thing2 == "cap-one"):
 		print "ENTERED CAP ONE"
 		return redirect('https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/login_only&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code')
 	print thing2
-	print request.path
-	print request.get_full_path()
+	# print request.path
+	# print request.get_full_path()
 
-	return redirect(reverse('gift_gallery'))
+	# return redirect(reverse('gift_gallery'))
 
 def get_rewards(url):
 	process = subprocess.Popen(["python","getRewards.py",url])
@@ -120,29 +120,33 @@ def get_rewards(url):
 	reward_balance = getRewards.rewards
 	print("Your rewards: %d", reward_balance)
 
+@login_required
 def login_only(request):
-	path = request.get_full_path()
-	logged_in = True
-	print logged_in
-	path = "http://localhost:8000" + path
-	get_rewards(path)
-	errors = []
-	if request.method == 'GET':
-		errors.append("")
-		context = {}
-		context['errors'] = errors
-		context['logged_in'] = logged_in
-		return render(request, 'login_only.html', context)
-	username = request.POST['username']
-	password = request.POST['password']
-	logged_in = True
-	user = authenticate(username=username, password=password)
-	if user is None:
-		errors.append("Invalid Password")
-		context = {'errors':errors}/Users/kjk929/Desktop/giftr/hackathon/giftr/templates/login.html
-		return render(request,'login_only.html', context)
-	login(request, user)
-	logged_in = True
+	# path = request.get_full_path()
+	# logged_in = True
+	# print logged_in
+	# path = "http://localhost:8000" + path
+	# get_rewards(path)
+	# errors = []
+	# if request.method == 'GET':
+	# 	errors.append("")
+	# 	context = {}
+	# 	context['errors'] = errors
+	# 	context['logged_in'] = logged_in
+	# 	return render(request, 'login_only.html', context)
+	# username = request.POST['username']
+	# password = request.POST['password']
+	# logged_in = True
+	# user = authenticate(username=username, password=password)
+	# if user is None:
+	# 	errors.append("Invalid Password")
+	# 	context = {'errors':errors}/Users/kjk929/Desktop/giftr/hackathon/giftr/templates/login.html
+	# 	return render(request,'login_only.html', context)
+	# login(request, user)
+	# logged_in = True
+	print 'logged in to capital one account'
+	print request.path
+	print request.GET['code']
 	return redirect(reverse('gift_gallery'))
 
 @login_required
@@ -249,3 +253,9 @@ def rewards(request, who):
 	context['rewards_balance'] = reward_balance
 	context['logged_in'] = logged_in
 	return render(request,'rewards.html', context)
+
+@login_required
+def cap_one_connect(request):
+	print request.path
+	return redirect(reverse('gift_gallery'))
+
