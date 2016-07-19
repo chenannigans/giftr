@@ -32,8 +32,8 @@ def get_access_token(code):
     global auth_token
     global prev_time
 
-    # response = requests.get('https://api.spotify.com/v1/albums/0sNOF9WDwhWunNAHPD3Baj')
-    #	print(response.json())
+    if auth_token is None:
+        return None
 
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -43,6 +43,10 @@ def get_access_token(code):
            '&grant_type=authorization_code&redirect_uri=' + REDIRECT_URL
 
     response = requests.post('https://api-sandbox.capitalone.com/oauth/oauth20/token', headers=headers, data=data)
+
+    if not response.ok:
+        return None
+
     print(response.ok)
     print(response.text)
     auth_token = response.json()
@@ -132,14 +136,13 @@ def redeem_money():
     return 0
 
 
-def get_cards():
-    url = sys.argv[1]
-    code = get_code_from_url(url)
+def get_cards(auth_code):
+    code = get_code_from_url(auth_code)
     if code is not None:
         get_access_token(code)
         get_rewards_accounts()
         return cards
-    return []
+    return None
 
 
 def get_card_information(i):
