@@ -14,7 +14,6 @@ urlpatterns = [
     url(r'^gift/photo/(?P<id>\d+)$', get_photo, name='get_photo'),
 	url(r'^gift/url/(?P<id>\d+)$', get_url, name='get_url'),
     url(r'^userlogout$', userlogout, name="userlogout"),
-	url(r'^login_only$', login_only, name='login_only'),
     url(r'^search_gift/$', search_gift, name='search_gift'),
     url(r'^feeling_lucky/$', feeling_lucky, name='feeling_lucky'),
     url(r'^cap-one-connect/$', cap_one_connect, name='cap_one_connect'),

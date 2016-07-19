@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from giftr.models import *
 from giftr.forms import *
+from giftr.getRewards import *
 from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
@@ -11,7 +12,7 @@ from mimetypes import guess_type
 
 import imghdr
 import sys
-import getRewards
+# import getRewards
 import subprocess
 
 from django.contrib.auth.decorators import login_required
@@ -112,45 +113,13 @@ def userlogin(request):
 		return redirect(reverse('gift_gallery'))
 	elif (thing2 == "cap-one"):
 		print "ENTERED CAP ONE"
-		return redirect('https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/login_only&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code')
+		return redirect('https://api-sandbox.capitalone.com/oauth/auz/authorize?redirect_uri=http://localhost:8000/giftr/cap-one-connect&scope=openid%20read_rewards_account_info&client_id=enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7&response_type=code')
 	print thing2
 	# print request.path
 	# print request.get_full_path()
 
 	# return redirect(reverse('gift_gallery'))
 
-
-
-@login_required
-def login_only(request):
-	# path = request.get_full_path()
-	# logged_in = True
-	# print logged_in
-	# path = "http://localhost:8000" + path
-	# get_rewards(path)
-	# errors = []
-	# if request.method == 'GET':
-	# 	errors.append("")
-	# 	context = {}
-	# 	context['errors'] = errors
-	# 	context['logged_in'] = logged_in
-	# 	return render(request, 'login_only.html', context)
-	# username = request.POST['username']
-	# password = request.POST['password']
-	# logged_in = True
-	# user = authenticate(username=username, password=password)
-	# if user is None:
-	# 	errors.append("Invalid Password")
-	# 	context = {'errors':errors}/Users/kjk929/Desktop/giftr/hackathon/giftr/templates/login.html
-	# 	return render(request,'login_only.html', context)
-	# login(request, user)
-	# logged_in = True
-	print 'logged in to capital one account'
-	print request.path
-	print request.GET['code']
-	code = request.GET['code']
-	# getRewards.get_cards(code)
-	return redirect(reverse('gift_gallery'))
 
 
 @login_required
@@ -267,4 +236,10 @@ def rewards(request, who):
 @login_required
 def cap_one_connect(request):
 	print request.path
+	print 'logged in to capital one account'
+	print request.path
+	print request.GET['code']
+	code = request.GET['code']
+	cards = get_cards(code)
+	print vars(cards)
 	return redirect(reverse('gift_gallery'))
