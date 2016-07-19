@@ -7,15 +7,18 @@ import urllib
 CLIENT_ID = "enterpriseapi-sb-0iSeXHHzheNu1AzI7DJbzea7"
 CLIENT_SECRET = "0be2610f200b69fdd1699084822cae2a96183d45"
 REDIRECT_URL = "http://localhost:8000/giftr/login_only"
-cardNumber = 8729
-rewardsAccountReferenceId = None
 
-global auth_token
-global prev_time
-global rewards
+#cardNumbers = []
+#cardNumber = 8729
+#rewardsAccountReferenceId = None
+#accountRefIds = []
+
+rewardsAccounts = []
+auth_token
+prev_time
 
 
-def getCodeFromUrl(url):
+def get_code_from_url(url):
     parsed = urlparse.parse_qs(urlparse.urlparse(url).query)
     print(parsed)
     if 'code' in parsed:
@@ -23,7 +26,7 @@ def getCodeFromUrl(url):
     return None
 
 
-def getAccessToken(code):
+def get_access_token(code):
     global auth_token
     global prev_time
 
@@ -45,7 +48,7 @@ def getAccessToken(code):
     return response.json()
 
 
-def refreshAccessToken():
+def refresh_access_token():
     global auth_token
     global prev_time
     refresh_token = auth_token['refresh_token']
@@ -66,13 +69,12 @@ def refreshAccessToken():
 
 def refresh():
     if time.time() + 10 > prev_time + auth_token['expires_in']:
-        refreshAccessToken()
+        refresh_access_token()
 
 
-def getRewardsAccounts():
-    global rewardsAccountReferenceId
+def get_rewards_accounts():
+    global rewardsAccounts
 
-    refresh()
     headers = {
         'Accept': 'application/json;v=1',
         'Authorization': 'Bearer ' + auth_token['access_token']
@@ -83,20 +85,20 @@ def getRewardsAccounts():
     response = requests.get(url, headers=headers)
 
     if response.ok and "rewardsAccounts" in response.json():
-        rewardsAccountReferenceId = urllib.quote_plus((
-            response.json()['rewardsAccounts'][0]['rewardsAccountReferenceId']))
+        rewardsAccounts = response.json()['rewardsAccounts']
+        for i in rewardsAccounts:
+            account = rewardsAccounts[i]
+            account[i]['rewardsAccountReferenceId'] = urllib.quote_plus(account['rewardsAccountReferenceId'])
+    return rewardsAccounts
 
 
-def getRewardsAccountsDetails():
-    getRewardsAccounts()
-    print(rewardsAccountReferenceId)
-
+def get_account_details(referenceID):
     headers = {
         'Accept': 'application/json;v=1',
         'Authorization': 'Bearer ' + auth_token['access_token']
     }
 
-    response = requests.get('https://api-sandbox.capitalone.com/rewards/accounts/' + rewardsAccountReferenceId,
+    response = requests.get('https://api-sandbox.capitalone.com/rewards/accounts/' + referenceID,
                             headers=headers)
     print(response.ok)
     print(response.json())
@@ -107,51 +109,33 @@ def authenticate(url):
     # # 	#go to authenticate website
     # grab url
     # url = ""
-    getAccessToken(url)
+    get_access_token(url)
 
     while True:
         # check if token needs to be refreshed
 
         if (time.time() + 10) > (prev_time + auth_token['expires_in']):
             print ("refreshing token")
-            refreshAccessToken()
+            refresh_access_token()
 
 
-def redeemMoney():
-    rewardsDetails = getRewardsAccountsDetails()
+def redeem_money():
+    rewardsDetails = get_account_details()
     if rewardsDetails['canRedeem'] and rewardsDetails['rewardsCurrency'] == "Cash":
         # super lazy for now
         print("You can save up to " + str(rewardsDetails['rewardsBalance']))
-        return rewardsDetails['rewardsBalance']
-
-
-# # paste your url here: e.g. https://www.google.com/?code=idFKpQH1T8RcHVOzFbo-qOlVaDi67_IWd0FpGg
-# url = "https://www.google.com/?code=sfZ_TYEVGTkBoxHf0S0IuVbhWc5MbzYIbz0Vmw"
-# getAccessToken(url)
-# print(auth_token)
-# while True:
-# 	refresh()
-
-
-# paste your url here: e.g. https://www.google.com/?code=idFKpQH1T8RcHVOzFbo-qOlVaDi67_IWd0FpGg
-# url = "https://www.google.com/?code=KZVwGfrUFTGv0B2DUyaO3wF9b43WvWe3aT4A4A"
-# getAccessToken(url)
-# getRewardsAccounts()
-# getRewardsAccountsDetails()
+        return int(rewardsDetails['rewardsBalance'].replace(",", ""))
+    return 0
 
 
 def main():
     url = sys.argv[1]
-    code = getCodeFromUrl(url)
+    code = get_code_from_url(url)
     if code is not None:
-        getAccessToken(code)
-        return redeemMoney()
-    return 0
+        get_access_token(code)
+        return get_rewards_accounts()
+    return None
 
 
-url = sys.argv[1]
-code = getCodeFromUrl(url)
-if code is not None:
-    getAccessToken(code)
-    rewards = redeemMoney()
-rewards = 0
+
+
