@@ -13,9 +13,11 @@ REDIRECT_URL = "http://localhost:8000/giftr/login_only"
 #rewardsAccountReferenceId = None
 #accountRefIds = []
 
+cards = []
 rewardsAccounts = []
 auth_token
 prev_time
+selected_account
 
 
 def get_code_from_url(url):
@@ -30,8 +32,8 @@ def get_access_token(code):
     global auth_token
     global prev_time
 
-    # response = requests.get('https://api.spotify.com/v1/albums/0sNOF9WDwhWunNAHPD3Baj')
-    #	print(response.json())
+    if auth_token is None:
+        return None
 
     headers = {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -41,6 +43,10 @@ def get_access_token(code):
            '&grant_type=authorization_code&redirect_uri=' + REDIRECT_URL
 
     response = requests.post('https://api-sandbox.capitalone.com/oauth/oauth20/token', headers=headers, data=data)
+
+    if not response.ok:
+        return None
+
     print(response.ok)
     print(response.text)
     auth_token = response.json()
@@ -74,6 +80,7 @@ def refresh():
 
 def get_rewards_accounts():
     global rewardsAccounts
+    global cards
 
     headers = {
         'Accept': 'application/json;v=1',
@@ -88,7 +95,8 @@ def get_rewards_accounts():
         rewardsAccounts = response.json()['rewardsAccounts']
         for i in rewardsAccounts:
             account = rewardsAccounts[i]
-            account[i]['rewardsAccountReferenceId'] = urllib.quote_plus(account['rewardsAccountReferenceId'])
+            rewardsAccounts[i]['rewardsAccountReferenceId'] = urllib.quote_plus(account['rewardsAccountReferenceId'])
+            cards[i] = account["accountDisplayName"]
     return rewardsAccounts
 
 
@@ -128,14 +136,31 @@ def redeem_money():
     return 0
 
 
-def main():
-    url = sys.argv[1]
-    code = get_code_from_url(url)
+def get_cards(auth_code):
+    code = get_code_from_url(auth_code)
     if code is not None:
         get_access_token(code)
-        return get_rewards_accounts()
+        get_rewards_accounts()
+        return cards
     return None
 
+
+def get_card_information(i):
+    global selected_account
+    selected_account = i
+    card = {}
+
+    account = get_account_details(rewardsAccounts[i]['rewardsAccountReferenceId'])
+
+    card["name"] = account["accountDisplayName"]
+    customer = account["primaryAccountHolder"]
+    card["customer"] = customer["firstName"] + " " + customer["lastName"]
+    card["rewards_balance"] = 0
+
+    if account["canRedeem"] and account["rewardsCurrency"] == "Cash":
+        card["rewards_balance"] = int(account["rewardsBalance"].replace(",", ""))
+
+    return card
 
 
 
