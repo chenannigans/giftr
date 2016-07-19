@@ -31,7 +31,6 @@ from operator import attrgetter
 from giftr.forms import *
 from django.conf import settings
 
-authed = False
 reward_balance = 5000.00
 logged_in = False
 
@@ -42,12 +41,6 @@ def gift_gallery(request):
 	context['gifts'] = Gift.objects.all()
 	context['user'] = request.user
 	context['rewards_balance'] = reward_balance
-	context['logged_in'] = logged_in
-	if logged_in:
-		print "LOGGED IN!!!!!!"
-	else:
-		print "NOT LOGGED INNN"
-
 	return render(request, 'gallery.html', context)
 
 # @transaction.commit_on_success
