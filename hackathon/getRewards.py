@@ -15,9 +15,9 @@ REDIRECT_URL = "http://localhost:8000/giftr/login_only"
 
 cards = []
 rewardsAccounts = []
-auth_token
-prev_time
-selected_account
+#auth_token
+#prev_time
+#selected_account
 
 
 
