@@ -6,19 +6,19 @@ Set Up
 -------------
 **Currently only available in Windows.**
 
-1. Make sure you are running [Python 2.7](https://www.python.org/downloads/)
-2. Install [Django](https://docs.djangoproject.com/en/1.9/howto/windows/) for Windows.
-3. Install the necessary modules by running the following on the Command Prompt:
+- Make sure you are running [Python 2.7](https://www.python.org/downloads/)
+- Install [Django](https://docs.djangoproject.com/en/1.9/howto/windows/) for Windows.
+- Install the necessary modules by running the following on the Command Prompt:
 ```
 pip install requests
 pip install Pillow 
 ```
-4. Run the server by running the following on the Command Prompt:
+- Run the server by running the following on the Command Prompt:
 ```
 cd ...\giftr\hackathon (wherever you have giftr saved)
 python manage.py runserver
 ```
-5. Open http://localhost:8000/ on your browser.
+- Open http://localhost:8000/ on your browser.
 
 Logging In
 -------------
