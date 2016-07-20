@@ -5,6 +5,7 @@ A way to take the stress out of choosing gifts. Whether it be for family or cowo
 Set Up
 -------------
 **Currently only available in Windows.**
+
 1. Make sure you are running [Python 2.7](https://www.python.org/downloads/)
 2. Install [Django](https://docs.djangoproject.com/en/1.9/howto/windows/) for Windows.
 3. Install the necessary modules by running the following on the Command Prompt:
