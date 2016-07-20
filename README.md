@@ -2,8 +2,21 @@ giftr
 ===================
 A way to take the stress out of choosing gifts. Whether it be for family or coworkers, birthday or an anniversary, we got your back. We crowdsource gift ideas and incorporate the Capital One Developers Exchange API to make paying for your gifts easier.
 
-----------
+Set Up
+-------------
+**Currently only available in Windows.**
+1. Make sure you are running [Python 2.7](https://www.python.org/downloads/)
+2. Install [Django](https://docs.djangoproject.com/en/1.9/howto/windows/) for Windows.
+3. Install the necessary modules by running the following on the Command Prompt:
+> pip install requests
 
+> pip install Pillow 
+
+4. Run the server by running the following on the Command Prompt:
+> cd ...\giftr\hackathon
+
+> python manage.py runserver
+5. Open http://localhost:8000/ on your browser.
 
 Logging In
 -------------
@@ -45,6 +58,6 @@ What if you want a gift around $14? Give or take a few bucks.
 
 ![Alt text](/hackathon/img/search_price.png)
 
-giftr. The gift that keeps giving.
+giftr.
 -------------
 ![Alt text](/hackathon/img/capital-one-logo.png)
