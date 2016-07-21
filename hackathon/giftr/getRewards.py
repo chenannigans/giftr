@@ -79,6 +79,7 @@ def refresh():
 def get_rewards_accounts():
     global rewardsAccounts
     global cards
+    global cashIndex
 
     if auth_info is None:
         return []
@@ -93,15 +94,17 @@ def get_rewards_accounts():
     response = requests.get(url, headers=headers)
 
     print("retrieved accounts: " + str(response.ok))
-
+    
     if response.ok and "rewardsAccounts" in response.json():
         rewardsAccounts = response.json()['rewardsAccounts']
         for i in range(0, len(rewardsAccounts)):
             account = rewardsAccounts[i]
             rewardsAccounts[i]['rewardsAccountReferenceId'] = urllib.quote_plus(account['rewardsAccountReferenceId'])
-            cards.append(account["accountDisplayName"])
+            # if type = cash, save index
+            if account["rewardsCurrency"] == "Cash":
+                cashIndex = i
+            cards.append(account["rewardsAccountReferenceId"])
     return rewardsAccounts
-
 
 def get_account_details(referenceID):
     headers = {
@@ -166,6 +169,13 @@ def get_card_information(i):
 
     return card
 
+def get_cash_balance(code):
+    global cashIndex
+    cards = get_cards(code)
+    print ("GET_CASH_BALANCE CASHINDEX: "), cashIndex
+    card = get_card_information(cashIndex)
+    print(card["rewards_balance"])
+    return card["rewards_balance"]
 
 def main():
     get_cards(sys.argv[1])

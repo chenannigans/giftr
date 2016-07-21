@@ -32,6 +32,7 @@ from operator import attrgetter
 from giftr.forms import *
 from django.conf import settings
 
+global cash_balance
 reward_balance = 5000.00
 logged_in = False
 customer = {}
@@ -39,11 +40,16 @@ customer = {}
 
 @login_required
 def gift_gallery(request):
+    global cash_balance
     context = {}
     context['form'] = GiftForm()
     context['gifts'] = Gift.objects.all()
     context['user'] = request.user
-    context['rewards_balance'] = reward_balance
+    try:
+        context['rewards_balance'] = cash_balance
+    except NameError:
+        context['rewards_balance'] = 0
+    print (cards)
     return render(request, 'gallery.html', context)
 
 
@@ -235,11 +241,11 @@ def rewards(request, who):
 
 @login_required
 def cap_one_connect(request):
-	print request.path
-	print 'logged in to capital one account'
-	print request.path
-	print request.GET['code']
-	code = request.GET['code']
-	cards = get_cards(code)
-	print vars(cards)
-	return redirect(reverse('gift_gallery'))
+    global cash_balance
+    print request.path
+    print 'logged in to capital one account'
+    print request.path
+    print request.GET['code']
+    code = request.GET['code']
+    cash_balance = get_cash_balance(code)
+    return redirect(reverse('gift_gallery'))
