@@ -13,6 +13,7 @@ rewardsAccounts = []
 auth_info = None
 prev_time = None
 selected_account = None
+global keep_refreshing
 
 
 def get_code_from_url(url):

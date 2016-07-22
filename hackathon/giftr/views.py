@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse
 from django.db import transaction
 from itertools import islice, chain
 from django.http import HttpResponse, Http404
-from django.core.mail import send_mail
+from django.core.mail import send_mail  
 from .models import *
 from .forms import *
 from mimetypes import guess_type
@@ -33,8 +33,6 @@ from giftr.forms import *
 from django.conf import settings
 
 global cash_balance
-reward_balance = 5000.00
-logged_in = False
 customer = {}
 
 
@@ -48,7 +46,7 @@ def gift_gallery(request):
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
-        context['rewards_balance'] = 0
+        context['rewards_balance'] = None
     print (cards)
     return render(request, 'gallery.html', context)
 
@@ -144,7 +142,10 @@ def profile(request, who):
     context = {}
     context['user'] = user
     context['gifts'] = gifts
-    context['rewards_balance'] = reward_balance
+    try:
+        context['rewards_balance'] = cash_balance
+    except NameError:
+        context['rewards_balance'] = None
     context['logged_in'] = logged_in
     return render(request, 'profile.html', context)
 
@@ -206,7 +207,10 @@ def search_gift(request):
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
-    context['rewards_balance'] = reward_balance
+    try:
+        context['rewards_balance'] = cash_balance
+    except NameError:
+        context['rewards_balance'] = None
     context['logged_in'] = logged_in
     return render(request, 'gallery.html', context)
 
@@ -220,24 +224,30 @@ def feeling_lucky(request):
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
-    context['rewards_balance'] = reward_balance
+    try:
+        context['rewards_balance'] = cash_balance
+    except NameError:
+        context['rewards_balance'] = None
     context['logged_in'] = logged_in
     return render(request, 'random.html', context)
 
 
 @login_required
 def rewards(request, who):
-	errors = []
-	if not User.objects.filter(username=who).exists():
-		return redirect(reverse('gift_gallery'))
-	user = User.objects.filter(username=who)[0]
-	gifts = Gift.objects.filter(user=user)
-	context={}
-	context['user'] = user
-	context['gifts'] = gifts
-	context['rewards_balance'] = reward_balance
-	context['logged_in'] = logged_in
-	return render(request,'rewards.html', context)
+    errors = []
+    if not User.objects.filter(username=who).exists():
+        return redirect(reverse('gift_gallery'))
+    user = User.objects.filter(username=who)[0]
+    gifts = Gift.objects.filter(user=user)
+    context={}
+    context['user'] = user
+    context['gifts'] = gifts
+    try:
+        context['rewards_balance'] = cash_balance
+    except NameError:
+        context['rewards_balance'] = None
+    context['logged_in'] = logged_in
+    return render(request,'rewards.html', context)
 
 @login_required
 def cap_one_connect(request):
