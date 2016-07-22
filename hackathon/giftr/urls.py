@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^search_gift/$', search_gift, name='search_gift'),
     url(r'^feeling_lucky/$', feeling_lucky, name='feeling_lucky'),
     url(r'^cap-one-connect/$', cap_one_connect, name='cap_one_connect'),
+    url(r'^gift_gallery/delete/(?P<id>\d+)$', delete_post, name='deletePost')
 ]

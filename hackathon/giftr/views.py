@@ -22,7 +22,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.db import transaction
 from itertools import islice, chain
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.core.mail import send_mail  
 from .models import *
 from .forms import *
@@ -261,3 +261,10 @@ def cap_one_connect(request):
     code = request.GET['code']
     cash_balance = get_cash_balance(code)
     return redirect(reverse('gift_gallery'))
+
+@login_required
+def delete_post(request, id):
+    query = Gift.objects.get(id=id)
+    query.delete()
+
+    return HttpResponseRedirect('/giftr/')
