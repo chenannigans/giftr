@@ -1,6 +1,9 @@
 giftr
 ===================
-###Alice Seongyeon Park, Ann Chen, Christine Eunji Kim, Elaine Lee
+###Alice Seongyeon Park (seongyeon.park@capitalone.com)
+###Ann Chen (ann.chen@capitalone.com)
+###Christine Eunji Kim (eunji.kim@capitalone.com)
+###Elaine Lee (elaine.lee@capitalone.com)
 A way to take the stress out of choosing gifts. Whether it be for family or coworkers, birthday or an anniversary, we got your back. We crowdsource gift ideas and incorporate the Capital One Developers Exchange API to make paying for your gifts easier.
 
 Set Up
