@@ -74,6 +74,7 @@ def refresh_access_token():
 
 def refresh():
     if time.time() + 10 > prev_time + auth_info['expires_in']:
+        print(sth)
         refresh_access_token()
 
 
