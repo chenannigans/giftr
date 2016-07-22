@@ -34,7 +34,7 @@ from django.conf import settings
 
 global cash_balance
 customer = {}
-
+logged_in = False
 
 @login_required
 def gift_gallery(request):
