@@ -35,6 +35,8 @@ from django.conf import settings
 global cash_balance
 customer = {}
 logged_in = False
+global cards
+test = ['a','b','c']
 
 @login_required
 def gift_gallery(request):
@@ -43,11 +45,11 @@ def gift_gallery(request):
     context['form'] = GiftForm()
     context['gifts'] = Gift.objects.all()
     context['user'] = request.user
+    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
         context['rewards_balance'] = None
-    print (cards)
     return render(request, 'gallery.html', context)
 
 
@@ -142,6 +144,7 @@ def profile(request, who):
     context = {}
     context['user'] = user
     context['gifts'] = gifts
+    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
@@ -209,6 +212,7 @@ def search_gift(request):
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
+    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
@@ -226,6 +230,7 @@ def feeling_lucky(request):
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
+    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
@@ -244,6 +249,7 @@ def rewards(request, who):
     context={}
     context['user'] = user
     context['gifts'] = gifts
+    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
@@ -260,6 +266,7 @@ def cap_one_connect(request):
     print request.GET['code']
     code = request.GET['code']
     cash_balance = get_cash_balance(code)
+    cards = get_cards(code)
     return redirect(reverse('gift_gallery'))
 
 @login_required

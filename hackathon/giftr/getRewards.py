@@ -105,7 +105,7 @@ def get_rewards_accounts():
             # if type = cash, save index
             if account["rewardsCurrency"] == "Cash":
                 cashIndex = i
-            cards.append(account["rewardsAccountReferenceId"])
+            cards.append(account["accountDisplayName"])
     return rewardsAccounts
 
 def get_account_details(referenceID):

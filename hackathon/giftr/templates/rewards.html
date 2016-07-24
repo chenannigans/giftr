@@ -4,21 +4,15 @@
        
       <link rel="stylesheet" type="text/css" href="{% static 'pinterest.css' %}"/> 
 
-<center>
-<div class = "card-image">
-              <img src="{% static 'card.jpg' %}">
-              </div>
-              </center>
-
                  <div class="row">
         <div class="col s12">
           <div class="card">
             <div class="card-content white-text">
-              <span class="card-title">My Rewards</span><br>
-              Name: Tatiana Schmidt<br>
-              Card Number: **************8729<br>
-              Balance: $5000.00<br>
-              Rewards Currency: Cash
+                <center><span class="card-title">My Cards</span></center>
+              <br>
+                {% for t in test %}
+                    {{ t }} <br>
+                {% endfor %}
             </div>
            
           </div>
