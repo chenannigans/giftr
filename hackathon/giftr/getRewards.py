@@ -177,7 +177,7 @@ def get_cash_balance(code):
     print ("GET_CASH_BALANCE CASHINDEX: "), cashIndex
     card = get_card_information(cashIndex)
     print(card["rewards_balance"])
-    return card["rewards_balance"]
+    return card["rewards_balance"], cards
 
 def main():
     get_cards(sys.argv[1])

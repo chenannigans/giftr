@@ -33,6 +33,7 @@ from giftr.forms import *
 from django.conf import settings
 
 global cash_balance
+global cards
 customer = {}
 logged_in = False
 global cards
@@ -41,15 +42,19 @@ test = ['a','b','c']
 @login_required
 def gift_gallery(request):
     global cash_balance
+    global cards
     context = {}
     context['form'] = GiftForm()
     context['gifts'] = Gift.objects.all()
     context['user'] = request.user
-    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
         context['rewards_balance'] = None
+    try:
+        context['cards'] = cards
+    except NameError:
+        context['cards'] = None
     return render(request, 'gallery.html', context)
 
 
@@ -136,6 +141,7 @@ def gift_form(request):
 
 @login_required
 def profile(request, who):
+    global cards
     errors = []
     if not User.objects.filter(username=who).exists():
         return redirect(reverse('gift_gallery'))
@@ -144,11 +150,14 @@ def profile(request, who):
     context = {}
     context['user'] = user
     context['gifts'] = gifts
-    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
         context['rewards_balance'] = None
+    try:
+        context['cards'] = cards
+    except NameError:
+        context['cards'] = None
     context['logged_in'] = logged_in
     return render(request, 'profile.html', context)
 
@@ -181,6 +190,7 @@ def get_url(request, id):
 
 @login_required
 def search_gift(request):
+    global cards
     gift_str = request.GET['gift_str']
     gift_str.strip(" ")
     gift_strs = gift_str.split(",")
@@ -212,17 +222,21 @@ def search_gift(request):
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
-    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
         context['rewards_balance'] = None
+    try:
+        context['cards'] = cards
+    except NameError:
+        context['cards'] = None
     context['logged_in'] = logged_in
     return render(request, 'gallery.html', context)
 
 
 @login_required
 def feeling_lucky(request):
+    global cards
     gift = Gift.objects.order_by('?').first()
     context = {}
     gifts = []
@@ -230,17 +244,21 @@ def feeling_lucky(request):
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
-    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
         context['rewards_balance'] = None
+    try:
+        context['cards'] = cards
+    except NameError:
+        context['cards'] = None
     context['logged_in'] = logged_in
     return render(request, 'random.html', context)
 
 
 @login_required
 def rewards(request, who):
+    global cards
     errors = []
     if not User.objects.filter(username=who).exists():
         return redirect(reverse('gift_gallery'))
@@ -249,24 +267,27 @@ def rewards(request, who):
     context={}
     context['user'] = user
     context['gifts'] = gifts
-    context['test'] = test
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
         context['rewards_balance'] = None
+    try:
+        context['cards'] = cards
+    except NameError:
+        context['cards'] = None
     context['logged_in'] = logged_in
     return render(request,'rewards.html', context)
 
 @login_required
 def cap_one_connect(request):
+    global cards
     global cash_balance
     print request.path
     print 'logged in to capital one account'
     print request.path
     print request.GET['code']
     code = request.GET['code']
-    cash_balance = get_cash_balance(code)
-    cards = get_cards(code)
+    cash_balance, cards = get_cash_balance(code)
     return redirect(reverse('gift_gallery'))
 
 @login_required
