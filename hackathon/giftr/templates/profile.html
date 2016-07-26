@@ -18,7 +18,7 @@
 				<img src="{% url 'get_photo' gift.id %}" />
 				<p>
 					{{ gift.description }}
-                    <a href="{% url 'deletePost' gift.id %}">DELETE</a>
+                    <br><a href="{% url 'deletePost' gift.id %}" >DELETE</a>
 				</p>
 			</div>
 		{% endfor %}

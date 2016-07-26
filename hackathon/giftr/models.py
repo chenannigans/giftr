@@ -22,3 +22,8 @@ class Gift(models.Model):
 	category = models.CharField(max_length=200, blank=True, null=True)
 	recipient_category = models.CharField(max_length=200, blank=True, null=True)
 
+	def category_list(self):
+		return self.category.split(',')
+
+	def recipient_list(self):
+		return self.recipient_category.split(',')

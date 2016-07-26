@@ -78,10 +78,14 @@ $(document).ready(function() {
           ${{ gift.price }}
         </p>
         {% if gift.category %}
-          <div class="chip">{{ gift.category }}</div>
+          {% for category in gift.category_list %}
+              <div class="chip">{{ category }}</div>
+          {% endfor %}
         {% endif %}
         {% if gift.recipient_category %}
-          <div class="chip">{{ gift.recipient_category }}</div>
+        {% for rec_category in gift.recipient_list %}
+              <div class="chip">{{ rec_category }}</div>
+          {% endfor %}
         {% endif %}
             </a>
       </div>
