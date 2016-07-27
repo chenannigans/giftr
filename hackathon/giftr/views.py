@@ -164,6 +164,8 @@ def profile(request, who):
 
 def userlogout(request):
     global cash_balance
+    global cards
+    cards = None
     cash_balance = None
     logout(request)
     return redirect(reverse('gift_gallery'))

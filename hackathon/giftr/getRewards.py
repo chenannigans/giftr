@@ -13,6 +13,7 @@ rewardsAccounts = []
 auth_info = None
 prev_time = None
 selected_account = None
+cashIndex = None
 global keep_refreshing
 
 
@@ -39,17 +40,21 @@ def get_access_token(code):
     data = 'code=' + code + '&client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + \
            '&grant_type=authorization_code&redirect_uri=' + REDIRECT_URL
 
-    response = requests.post('https://api-sandbox.capitalone.com/oauth/oauth20/token', headers=headers, data=data)
-    print("reached")
-    print("retrieved access token: " + str(response.ok))
-    if not response.ok:
+    try :
+        response = requests.post('https://api-sandbox.capitalone.com/oauth/oauth20/token', headers=headers, data=data)
+        print("reached")
+        print("retrieved access token: " + str(response.ok))
+        if not response.ok:
+            return None
+        print(response.ok)
+        print(response.text)
+        auth_info = response.json()
+        prev_time = time.time()
+        return response.json()
+    except Error :
         return None
-
-    print(response.ok)
-    print(response.text)
-    auth_info = response.json()
-    prev_time = time.time()
-    return response.json()
+    
+    
 
 
 def refresh_access_token():
@@ -63,13 +68,14 @@ def refresh_access_token():
 
     data = 'client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + \
            '&grant_type=refresh_token&refresh_token=' + refresh_token
+    try:
+        response = requests.post('https://api-sandbox.capitalone.com/oauth/oauth20/token', headers=headers, data=data)
 
-    response = requests.post('https://api-sandbox.capitalone.com/oauth/oauth20/token', headers=headers, data=data)
-
-    auth_token = response.json()
-    prev_time = time.time()
-
-    return response.json()
+        auth_token = response.json()
+        prev_time = time.time()
+        return response.json()
+    except Error:
+        return {}
 
 
 def refresh():
@@ -82,7 +88,9 @@ def get_rewards_accounts():
     global rewardsAccounts
     global cards
     global cashIndex
-
+    old_cards = cards
+    old_cash = cashIndex
+    cards = []
     if auth_info is None:
         return []
 
@@ -92,20 +100,26 @@ def get_rewards_accounts():
     }
 
     url = 'https://api-sandbox.capitalone.com/rewards/accounts'
+    try:
+        response = requests.get(url, headers=headers)
 
-    response = requests.get(url, headers=headers)
-
-    print("retrieved accounts: " + str(response.ok))
-    
-    if response.ok and "rewardsAccounts" in response.json():
-        rewardsAccounts = response.json()['rewardsAccounts']
-        for i in range(0, len(rewardsAccounts)):
-            account = rewardsAccounts[i]
-            rewardsAccounts[i]['rewardsAccountReferenceId'] = urllib.quote_plus(account['rewardsAccountReferenceId'])
-            # if type = cash, save index
-            if account["rewardsCurrency"] == "Cash":
-                cashIndex = i
-            cards.append(account["accountDisplayName"])
+        print("retrieved accounts: " + str(response.ok))
+        
+        if response.ok and "rewardsAccounts" in response.json():
+            rewardsAccounts = response.json()['rewardsAccounts']
+            for i in range(0, len(rewardsAccounts)):
+                account = rewardsAccounts[i]
+                rewardsAccounts[i]['rewardsAccountReferenceId'] = urllib.quote_plus(account['rewardsAccountReferenceId'])
+                # if type = cash, save index
+                if account["rewardsCurrency"] == "Cash":
+                    cashIndex = i
+                cards.append(account["accountDisplayName"])
+        else:
+            cards = old_cards
+            cash_index = old_cash
+    except Error:
+        cards = old_cards
+        cash_index = old_cash
     return rewardsAccounts
 
 def get_account_details(referenceID):
