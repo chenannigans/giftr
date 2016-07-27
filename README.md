@@ -44,7 +44,9 @@ Just enter your Capital One credentials and give our app permissions to access y
 Gallery
 -------------
 ![Alt text](/hackathon/img/gallery.png)
+
 ![Alt text](/hackathon/img/gal.png)
+
 ![Alt text](/hackathon/img/cards.png)
 
 See all the user-submitted gift ideas at a glance. You can select on any to take you to a vendor page. Notice your Capital One Rewards balance available to you on the top right corner.
