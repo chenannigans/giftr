@@ -209,6 +209,10 @@ def search_gift(request):
             price = int(s)
             LR = price - 10
             HR = price + 10
+            if len(gift_strs)==1:
+                print "ONLY ONE"
+                gift = Gift.objects.filter(price__gte=LR, price__lte=HR)
+                gifts.extend(gift)
 
     for s in gift_strs:
         # s.strip(" ")
