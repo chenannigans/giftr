@@ -1,0 +1,23 @@
+{% for gift in gifts %}
+  <div class="pin">
+      {%if gift.url%}
+    <a target="_blank" href="{% url 'get_url' gift.id %}">
+        {%endif%}
+    <img src="{% url 'get_photo' gift.id %}" />
+    <p>
+      {{ gift.description }}<br>
+      ${{ gift.price }}
+    </p>
+    {% if gift.category %}
+      {% for category in gift.category_list %}
+          <div class="chip">{{ category }}</div>
+      {% endfor %}
+    {% endif %}
+    {% if gift.recipient_category %}
+    {% for rec_category in gift.recipient_list %}
+          <div class="chip">{{ rec_category }}</div>
+      {% endfor %}
+    {% endif %}
+        </a>
+  </div>
+{% endfor %}

@@ -51,7 +51,7 @@ def get_access_token(code):
         auth_info = response.json()
         prev_time = time.time()
         return response.json()
-    except Error :
+    except  :
         return None
     
     
@@ -74,7 +74,7 @@ def refresh_access_token():
         auth_token = response.json()
         prev_time = time.time()
         return response.json()
-    except Error:
+    except :
         return {}
 
 
@@ -117,7 +117,7 @@ def get_rewards_accounts():
         else:
             cards = old_cards
             cash_index = old_cash
-    except Error:
+    except :
         cards = old_cards
         cash_index = old_cash
     return rewardsAccounts

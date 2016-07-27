@@ -7,6 +7,10 @@
   background-color: #4c0000;
 }
 
+.card h6{
+	color:black;
+}
+
 .background img{
   width:100%;
   height:100%;

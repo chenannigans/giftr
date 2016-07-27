@@ -12,15 +12,10 @@
 {% endfor %}
  -->
 <div id="wrapper">
-	<div id="columns">
-		{% for gift in gifts %}
-			<div class="pin">
-				<img src="{% url 'get_photo' gift.id %}" />
-				<p>
-					{{ gift.description }}
-                    <br><a href="{% url 'deletePost' gift.id %}" >DELETE</a>
-				</p>
-			</div>
-		{% endfor %}
-	</div>
+<center><h1>MY GIFTS</h1></center>
+<div id="wrapper">
+  <div id="columns">
+    {% include "gifts.html" %}
+  </div>
+</div>
 </div>

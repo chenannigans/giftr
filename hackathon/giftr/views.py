@@ -36,6 +36,7 @@ global cash_balance
 global cards
 customer = {}
 logged_in = False
+connected = True
 global cards
 test = ['a','b','c']
 
@@ -43,10 +44,13 @@ test = ['a','b','c']
 def gift_gallery(request):
     global cash_balance
     global cards
+    global connected
     context = {}
     context['form'] = GiftForm()
     context['gifts'] = Gift.objects.all()
     context['user'] = request.user
+    context['connection'] = connected
+    connected = True
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
@@ -159,6 +163,7 @@ def profile(request, who):
     except NameError:
         context['cards'] = None
     context['logged_in'] = logged_in
+    context['connection'] = connected
     return render(request, 'profile.html', context)
 
 
@@ -194,36 +199,43 @@ def get_url(request, id):
 def search_gift(request):
     global cards
     gift_str = request.GET['gift_str']
-    gift_str.strip(" ")
+    # gift_str.strip(" ")
     gift_strs = gift_str.split(",")
+    gift_strs = gift_str.split(" ")
     gifts = []
+    price = None
     for s in gift_strs:
-        s.strip(" ")
-
-        gift = Gift.objects.filter(category__icontains=s)
-        if not gift in gifts:
-            gifts.extend(gift)
-
-        gift = Gift.objects.filter(recipient_category__icontains=s)
-        if not gift in gifts:
-            gifts.extend(gift)
-
-        gift = Gift.objects.filter(description__icontains=s)
-        if not gift in gifts:
-            gifts.extend(gift)
-
-        if "price" in s:
-            price = float(s[6:])
+        if s.isdigit():
+            price = int(s)
             LR = price - 10
             HR = price + 10
-            gift = Gift.objects.filter(price__gte=LR, price__lte=HR)
-            if not gift in gifts:
-                gifts.extend(gift)
 
+    for s in gift_strs:
+        # s.strip(" ")
+        if price is not None:
+            gift = Gift.objects.filter(category__icontains=s, price__gte=LR, price__lte=HR)
+        else:
+            gift = Gift.objects.filter(category__icontains=s)
+        gifts.extend(gift)
+
+        if price is not None:
+            gift = Gift.objects.filter(recipient_category__icontains=s, price__gte=LR, price__lte=HR)
+        else:
+            gift = Gift.objects.filter(recipient_category__icontains=s)
+        gifts.extend(gift)
+
+        if price is not None:
+            gift = Gift.objects.filter(description__icontains=s, price__gte=LR, price__lte=HR)
+        else:
+            gift = Gift.objects.filter(description__icontains=s)
+        gifts.extend(gift)
+
+    gifts = list(set(gifts))
     context = {}
     context['form'] = GiftForm()
     context['gifts'] = gifts
     context['user'] = request.user
+    context['connection'] = connected
     try:
         context['rewards_balance'] = cash_balance
     except NameError:
@@ -255,6 +267,7 @@ def feeling_lucky(request):
     except NameError:
         context['cards'] = None
     context['logged_in'] = logged_in
+    context['connection'] = connected
     return render(request, 'random.html', context)
 
 
@@ -284,13 +297,19 @@ def rewards(request, who):
 def cap_one_connect(request):
     global cards
     global cash_balance
+    global connected
     print request.path
     print 'logged in to capital one account'
     print request.path
     print request.GET['code']
     code = request.GET['code']
-    cash_balance, cards = get_cash_balance(code)
-    return redirect(reverse('gift_gallery'))
+    try:
+        cash_balance, cards = get_cash_balance(code)
+        return redirect(reverse('gift_gallery'))
+    except:
+        connected = False
+        return redirect(reverse('gift_gallery'))
+
 
 @login_required
 def delete_post(request, id):
