@@ -73,3 +73,7 @@ body {
 #columns:hover .pin:not(:hover) {
 	opacity: 0.4;
 }
+
+.material-icons{
+	float:right;
+}

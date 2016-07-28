@@ -19,8 +19,7 @@
       {% endfor %}
     {% endif %}
     {% if profile %}
-      <a href="{% url 'deletePost' gift.id %}" >Delete
-      <button class="btn waves-effect waves-light"></button></a>
+      <a href="{% url 'deletePost' gift.id %}" ><i class="material-icons delete">delete</i></a>
     {% endif %}
         </a>
   </div>
