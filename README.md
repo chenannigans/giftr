@@ -41,13 +41,13 @@ Just enter your Capital One credentials and give our app permissions to access y
 
 ![Alt text](/hackathon/img/devex_auth.png)
 
+View your cards and reward information at a glance.
+
+![Alt text](/hackathon/img/cards.png)
+
 Gallery
 -------------
 ![Alt text](/hackathon/img/gallery.png)
-
-![Alt text](/hackathon/img/gal.png)
-
-![Alt text](/hackathon/img/cards.png)
 
 See all the user-submitted gift ideas at a glance. You can select on any to take you to a vendor page. Notice your Capital One Rewards balance available to you on the top right corner.
 
