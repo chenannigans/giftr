@@ -8,21 +8,21 @@ A way to take the stress out of choosing gifts. Whether it be for family or cowo
 
 Set Up
 -------------
-**Currently only available in Windows.**
+**May not connect to Capital One while on an enterprise machine.**
 
 - Make sure you are running [Python 2.7](https://www.python.org/downloads/)
-- Install [Django](https://docs.djangoproject.com/en/1.9/howto/windows/) for Windows.
-- Install the necessary modules by running the following on the Command Prompt:
+- Install [Django](https://docs.djangoproject.com/).
+- Install the necessary modules by running the following on the Command Prompt/Terminal:
 ```
 pip install requests
 pip install Pillow 
 ```
-- Migrate database on the Command Prompt:
+- Migrate database on the Command Prompt/Terminal:
 ```
 python manage.py makemigrations
 python manage.py migrate
 ```
-- Run the server by running the following on the Command Prompt:
+- Run the server by running the following on the Command Prompt/Terminal:
 ```
 cd ...\giftr\hackathon (wherever you have giftr saved)
 python manage.py runserver
