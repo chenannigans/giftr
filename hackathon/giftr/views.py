@@ -165,7 +165,7 @@ def profile(request, who):
     context['logged_in'] = logged_in
     context['connection'] = connected
     context['profile']=True
-    
+
     return render(request, 'profile.html', context)
 
 
@@ -319,7 +319,9 @@ def cap_one_connect(request):
 
 @login_required
 def delete_post(request, id):
-    query = Gift.objects.get(id=id)
-    query.delete()
+    gift = Gift.objects.get(id=id)
+    user = gift.user.username
+    gift.delete()
 
-    return HttpResponseRedirect('/giftr/')
+    return redirect(reverse('profile', kwargs={"who":user}))
+    # return HttpResponseRedirect('/giftr/')
