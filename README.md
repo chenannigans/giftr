@@ -69,7 +69,7 @@ Have a specific category in mind? Let's say... Electronics?
 
 ![Alt text](/hackathon/img/search_elec.png)
 
-What if you want a gift around $14? Give or take a few bucks. 
+What if you want a gift around $15? Give or take a few bucks. 
 
 ![Alt text](/hackathon/img/search_price.png)
 
