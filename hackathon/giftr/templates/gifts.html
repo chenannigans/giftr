@@ -18,6 +18,9 @@
           <div class="chip">{{ rec_category }}</div>
       {% endfor %}
     {% endif %}
+    {% if profile %}
+      <a href="{% url 'deletePost' gift.id %}" >DELETE</a>
+    {% endif %}
         </a>
   </div>
 {% endfor %}

@@ -164,6 +164,8 @@ def profile(request, who):
         context['cards'] = None
     context['logged_in'] = logged_in
     context['connection'] = connected
+    context['profile']=True
+    
     return render(request, 'profile.html', context)
 
 
